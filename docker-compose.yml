@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.4
+    privileged: true
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: BookifyDB
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - bookify-network
+
+  backend:
+    build: ./backend
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/BookifyDB
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - bookify-network
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+    networks:
+      - bookify-network
+
+networks:
+  bookify-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
