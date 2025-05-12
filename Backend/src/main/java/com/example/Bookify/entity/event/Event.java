@@ -56,14 +56,14 @@ public class Event {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id",nullable = false)
     private Category category;
 
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private User createdBy;
 

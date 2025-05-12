@@ -5,7 +5,7 @@ import com.example.Bookify.repository.projection.EventReservationDetailsForVerif
 
 public interface BookingService {
 
-    int bookEvent(int eventId);
+    int bookEvent(int eventId,int userId);
 
     EventReservationDetailsForVerification verifyReservation(String ticketCode);
 }

@@ -50,7 +50,7 @@ public class EventController {
         return eventService.getEvent(eventId);
     }
 
-    @GetMapping("/all")
+ /*   @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public Page<EventDetailsResponse> getAllEventsPaged(
             @RequestParam(defaultValue = "0") int page,
@@ -58,8 +58,8 @@ public class EventController {
             @RequestParam(defaultValue = "eventTime") String sortBy
     ){
        return eventService.getAllEventsPaged(page,size,sortBy);
-    }
-    @GetMapping("/category")
+    }*/
+   /* @GetMapping("/category")
     @ResponseStatus(HttpStatus.OK)
     public Page<EventDetailsResponse> getAllEventsPaged(
             @RequestParam(defaultValue = "0") int page,
@@ -69,6 +69,6 @@ public class EventController {
     ){
         return eventService.getEventsPagedFilteredByCategory(categoryName,page,size,sortBy);
     }
-
+*/
 
 }

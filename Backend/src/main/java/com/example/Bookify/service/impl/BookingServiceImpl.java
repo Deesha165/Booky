@@ -36,9 +36,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @Transactional(isolation=Isolation.SERIALIZABLE)
-    public int bookEvent(int eventId) {
+    public int bookEvent(int eventId,int userId) {
 
-        int userId=1;//temp
+
 
         Event event=eventService.getEventEntityById(eventId);
         Booking savedBooking;
@@ -62,7 +62,14 @@ public class BookingServiceImpl implements BookingService {
                     .ticketCode(createdTicket.getTicketCode())
                     .build();
 
-            notificationService.sendMail(user.getEmail(),eventReservationDetails);
+            try{
+                notificationService.sendMail(user.getEmail(),eventReservationDetails);
+            }
+            catch (Exception e){
+                log.warn("Failed to send email for booking id {}: {}", savedBooking.getId(), e.getMessage());
+
+            }
+
 
         }
         else{

@@ -96,17 +96,17 @@ public class EventServiceImpl implements EventService {
 
 
     @Override
-    public Page<EventDetailsResponse> getAllEventsPaged(int page,int size,String sortBy) {
-        int userId=1;
+    public Page<EventDetailsResponse> getAllEventsPaged(int userId,int page,int size,String sortBy) {
+
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, sortBy));
               Page<EventWithBookingStatus>events=eventRepository.findPagedEvents(userId,pageable);
         return  events.map(eventMapper::fromProjectedEventToEventResponse);
     }
 
     @Override
-    public Page<EventDetailsResponse> getEventsPagedFilteredByCategory(String categoryName,int page,int size,String sortBy) {
+    public Page<EventDetailsResponse> getEventsPagedFilteredByCategory(int userId,String categoryName,int page,int size,String sortBy) {
 
-        int userId=1;
+
         Pageable pageable=PageRequest.of(page,size,Sort.by(Sort.Direction.DESC,sortBy));
         Page<EventWithBookingStatus> events=eventRepository.findPagedEventsFilteredByCategory(categoryName,userId,pageable);
 
