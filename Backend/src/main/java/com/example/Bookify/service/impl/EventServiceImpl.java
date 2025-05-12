@@ -60,7 +60,7 @@ public class EventServiceImpl implements EventService {
                 .orElseThrow(()->new EntityNotFoundException("Category with id= "+eventCreationRequest.categoryId()+" doesn't exist"));
 
         event.setCategory(category);
-          event.setCreatedBy(creator);
+           event.setCreatedBy(creator);
 
          Event savedEvent= eventRepository.save(event);
 
@@ -74,7 +74,7 @@ public class EventServiceImpl implements EventService {
         Event event=getEventEntityById(eventUpdateRequest.eventId());
 
         event.setEventTime(eventUpdateRequest.eventTime());
-        event.setDescription(event.getDescription());
+                       event.setDescription(event.getDescription());
         event.setImage(event.getImage());
 
         return eventMapper.toEventResponse(event);
@@ -96,22 +96,23 @@ public class EventServiceImpl implements EventService {
 
 
     @Override
-    public Page<EventDetailsResponse> getAllEventsPaged(int page,int size,String sortBy,int userId) {
+    public Page<EventDetailsResponse> getAllEventsPaged(int page,int size,String sortBy) {
+        int userId=1;
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, sortBy));
-        Page<EventWithBookingStatus>events=eventRepository.findPagedEvents(userId,pageable);
+              Page<EventWithBookingStatus>events=eventRepository.findPagedEvents(userId,pageable);
         return  events.map(eventMapper::fromProjectedEventToEventResponse);
     }
 
     @Override
-    public Page<EventDetailsResponse> getEventsFilteredByCategory(String categoryName,int userId,int page,int size,String sortBy) {
+    public Page<EventDetailsResponse> getEventsPagedFilteredByCategory(String categoryName,int page,int size,String sortBy) {
 
+        int userId=1;
         Pageable pageable=PageRequest.of(page,size,Sort.by(Sort.Direction.DESC,sortBy));
         Page<EventWithBookingStatus> events=eventRepository.findPagedEventsFilteredByCategory(categoryName,userId,pageable);
 
     return events.map(eventMapper::fromProjectedEventToEventResponse);
     }
 
-    @Override
     @Scheduled(fixedRate = 1,timeUnit = TimeUnit.HOURS)
     public void updateTrendingEvents() {
 

@@ -1,6 +1,6 @@
 package com.example.Bookify.dto.booking;
 
-public record BookingCreationRequest(
+public record BookingRequest(
 
         int eventId,
         int userId

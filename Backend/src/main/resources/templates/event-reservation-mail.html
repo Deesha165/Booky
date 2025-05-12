@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            background-color: #f7f9fc;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e0e6ed;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin: -30px -30px 25px -30px;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+
+
+        .warning-note {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        .event-details {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .event-details li {
+            margin-bottom: 10px;
+        }
+
+
+        .event-price {
+            font-size: 18px;
+            color: #007bff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h2>Congratulations!</h2>
+    </div>
+
+    <p>Dear <strong th:text="${userEmail}"></strong>,</p>
+
+    <p>You have successfully booked a ticket for the following event:</p>
+
+    <ul class="event-details">
+        <li><strong>Event Name:</strong> <span th:text="${eventName}">Event Name</span></li>
+        <li><strong>Event Date & Time:</strong> <span th:text="${eventTime}">              </span></li>
+        <li><strong>Venue:</strong> <span th:text="${venue}">Event Venue</span></li>
+        <li><strong>Price per Ticket:</strong> <span th:text="${price}">             </span> EGP</li>
+    </ul>
+
+    <p>Your ticket code is: <strong th:text="${ticketCode}"></strong></p>
+
+    <p class="event-price">Total Price: <span th:text="${price}"></span> EGP</p>
+
+    <p class="warning-note">
+        <strong>Important:</strong> This ticket code is for verification at the event. Please keep it safe.
+    </p>
+
+
+
+    <p>Best regards,<br><strong>The Bookify Team</strong></p>
+
+
+</div>
+</body>
+</html>

@@ -1,5 +1,7 @@
 package com.example.Bookify.service.impl;
 
+import com.example.Bookify.dto.booking.BookingRequest;
+import com.example.Bookify.dto.event.EventReservationDetails;
 import com.example.Bookify.entity.booking.Booking;
 import com.example.Bookify.entity.booking.Ticket;
 import com.example.Bookify.entity.event.Event;
@@ -10,6 +12,7 @@ import com.example.Bookify.repository.TicketRepository;
 import com.example.Bookify.repository.projection.EventReservationDetailsForVerification;
 import com.example.Bookify.service.BookingService;
 import com.example.Bookify.service.EventService;
+import com.example.Bookify.service.NotificationService;
 import com.example.Bookify.service.UserService;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,11 +31,14 @@ public class BookingServiceImpl implements BookingService {
     private final TicketRepository ticketRepository;
     private final UserService userService;
     private final EventService eventService;
+    private final NotificationService notificationService;
 
 
     @Override
     @Transactional(isolation=Isolation.SERIALIZABLE)
-    public int bookEvent(int eventId, int userId) {
+    public int bookEvent(int eventId) {
+
+        int userId=1;//temp
 
         Event event=eventService.getEventEntityById(eventId);
         Booking savedBooking;
@@ -45,7 +51,18 @@ public class BookingServiceImpl implements BookingService {
                     .build();
             savedBooking=bookingRepository.save(booking);
 
-             createTicket(savedBooking);
+           Ticket createdTicket=  createTicket(savedBooking);
+
+             //send email with details for the userrr with reservation deetails
+            EventReservationDetails eventReservationDetails=EventReservationDetails.builder()
+                    .name(event.getName())
+                    .eventTime(event.getEventTime())
+                    .venue(event.getVenue())
+                    .pricePerTicket(event.getPricePerTicket())
+                    .ticketCode(createdTicket.getTicketCode())
+                    .build();
+
+            notificationService.sendMail(user.getEmail(),eventReservationDetails);
 
         }
         else{
@@ -62,7 +79,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
 
-    private void createTicket(Booking booking){
+    private Ticket createTicket(Booking booking){
 
         log.info("Creating ticket for booking -ID: {},User: {},Event: {}, BookedAt: {}",
                 booking.getId(),
@@ -78,6 +95,7 @@ public class BookingServiceImpl implements BookingService {
         Ticket savedTicket=  ticketRepository.save(generatedTicket);
 
         log.info("Ticket:{} created succesfully",savedTicket);
+        return  savedTicket;
     }
 
     private String generateTicketCode(){
