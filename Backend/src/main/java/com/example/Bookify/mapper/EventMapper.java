@@ -1,9 +1,12 @@
 package com.example.Bookify.mapper;
 
+import com.example.Bookify.dto.event.CategoryResponse;
 import com.example.Bookify.dto.event.EventCreationRequest;
 import com.example.Bookify.dto.event.EventDetailsResponse;
 import com.example.Bookify.dto.event.EventUpdateRequest;
+import com.example.Bookify.entity.event.Category;
 import com.example.Bookify.entity.event.Event;
+import com.example.Bookify.entity.user.User;
 import com.example.Bookify.repository.projection.EventWithBookingStatus;
 import org.springframework.stereotype.Component;
 
@@ -50,6 +53,13 @@ public class EventMapper {
                 .isBooked(event.isBooked())
                 .build();
     }
+    public CategoryResponse toCategoryResponse(Category category){
+
+        return CategoryResponse.builder().id(category.getId()).name(category.getName()).build();
+
+    }
+
+
 
 
 }

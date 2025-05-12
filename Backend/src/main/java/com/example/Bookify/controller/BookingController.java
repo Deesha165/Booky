@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class BookingController {
     private BookingService bookingService;
 
-    /*@PostMapping("/book-event/{eventId}")
+    @PostMapping("/book-event/{eventId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public int bookEvent(@PathVariable int eventId){
+    public int bookEvent(@PathVariable int eventId,@RequestParam int userId){
 
-        return bookingService.bookEvent(eventId);
-    }*/
+        return bookingService.bookEvent(eventId,userId);
+    }
 
     @GetMapping("/verify")
     @ResponseStatus(HttpStatus.OK)

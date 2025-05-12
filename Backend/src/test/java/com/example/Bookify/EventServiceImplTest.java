@@ -10,6 +10,7 @@ import com.example.Bookify.exception.EntityNotFoundException;
 import com.example.Bookify.mapper.EventMapper;
 import com.example.Bookify.repository.CategoryRepository;
 import com.example.Bookify.repository.EventRepository;
+import com.example.Bookify.repository.EventTagRepository;
 import com.example.Bookify.repository.TagRepository;
 import com.example.Bookify.service.EventService;
 import com.example.Bookify.service.UserService;
@@ -20,8 +21,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -33,7 +36,8 @@ public class EventServiceImplTest {
     private  TagRepository tagRepository;
     private  EventMapper eventMapper;
     private  UserService userService;
-    private volatile List<EventDetailsResponse> trendingCachedEvents=List.of();
+    private EventTagRepository eventTagRepository;
+    private volatile Set<EventDetailsResponse> trendingCachedEvents= new HashSet<>();
 
     private EventService eventService;
     @BeforeEach
@@ -44,9 +48,10 @@ public class EventServiceImplTest {
         eventRepository=mock(EventRepository.class);
         eventMapper=mock(EventMapper.class);
         userService=mock(UserService.class);
-        trendingCachedEvents=mock(List.class);
+        trendingCachedEvents=mock(Set.class);
+        eventTagRepository=mock(EventTagRepository.class);
 
-        eventService=new EventServiceImpl(eventRepository,categoryRepository,tagRepository,eventMapper,userService,trendingCachedEvents);
+        eventService=new EventServiceImpl(eventRepository,categoryRepository,tagRepository,eventTagRepository,eventMapper,userService,trendingCachedEvents);
 
     }
     @Test

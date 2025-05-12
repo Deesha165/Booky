@@ -1,5 +1,6 @@
 package com.example.Bookify.controller;
 
+import com.example.Bookify.dto.event.CategoryResponse;
 import com.example.Bookify.dto.event.EventCreationRequest;
 import com.example.Bookify.dto.event.EventDetailsResponse;
 import com.example.Bookify.dto.event.EventUpdateRequest;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @RestController
@@ -22,7 +24,7 @@ public class EventController {
 
     @GetMapping("/trending")
     @ResponseStatus(HttpStatus.OK)
-    public List<EventDetailsResponse> getTrendingEvents() {
+    public Set<EventDetailsResponse> getTrendingEvents() {
         return eventService.getTrendingEvents();
     }
 
@@ -32,43 +34,54 @@ public class EventController {
 
         return eventService.createEvent(eventCreationRequest);
     }
+    @PostMapping("/category/{categoryName}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CategoryResponse createCategory(@PathVariable String categoryName){
 
+        return eventService.createCategory(categoryName);
+    }
+
+    @GetMapping("/category")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CategoryResponse> getAllCategories(){
+
+        return eventService.getAllCategories();
+    }
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public EventDetailsResponse modifyEvent(@Valid @RequestBody EventUpdateRequest eventUpdateRequest){
 
         return eventService.updateEvent(eventUpdateRequest);
     }
-    @DeleteMapping
+    @DeleteMapping("{eventId}")
     @ResponseStatus(HttpStatus.OK)
-    public int removeEvent(int eventId){
+    public int removeEvent(@PathVariable int eventId){
         return eventService.deleteEvent(eventId);
     }
-    @GetMapping
+    @GetMapping("{eventId}")
     @ResponseStatus(HttpStatus.OK)
-    public EventDetailsResponse getEvent(int eventId){
+    public EventDetailsResponse getEvent(@PathVariable int eventId){
         return eventService.getEvent(eventId);
     }
 
- /*   @GetMapping("/all")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Page<EventDetailsResponse> getAllEventsPaged(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "eventTime") String sortBy
-    ){
-       return eventService.getAllEventsPaged(page,size,sortBy);
-    }*/
-   /* @GetMapping("/category")
-    @ResponseStatus(HttpStatus.OK)
-    public Page<EventDetailsResponse> getAllEventsPaged(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "2") int size,
             @RequestParam(defaultValue = "eventTime") String sortBy,
-            @RequestParam String categoryName
+            @RequestParam int userId,
+            @RequestParam(required = false) String categoryName
     ){
-        return eventService.getEventsPagedFilteredByCategory(categoryName,page,size,sortBy);
+        if (categoryName == null) {
+            return eventService.getAllEventsPaged(userId, page, size, sortBy);
+        }
+
+        else {
+
+            return eventService.getEventsPagedFilteredByCategory(userId, categoryName, page, size, sortBy);
+        }
     }
-*/
+
 
 }

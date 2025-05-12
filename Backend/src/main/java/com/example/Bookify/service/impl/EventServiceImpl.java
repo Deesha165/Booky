@@ -1,11 +1,14 @@
 package com.example.Bookify.service.impl;
 
 
+import com.example.Bookify.dto.event.CategoryResponse;
 import com.example.Bookify.dto.event.EventCreationRequest;
 import com.example.Bookify.dto.event.EventDetailsResponse;
 import com.example.Bookify.dto.event.EventUpdateRequest;
 import com.example.Bookify.entity.event.Category;
 import com.example.Bookify.entity.event.Event;
+import com.example.Bookify.entity.event.EventTag;
+import com.example.Bookify.entity.event.Tag;
 import com.example.Bookify.entity.user.User;
 import com.example.Bookify.exception.DuplicateResourceException;
 import com.example.Bookify.exception.EntityNotFoundException;
@@ -28,9 +31,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -40,10 +43,11 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final CategoryRepository categoryRepository;
     private final TagRepository tagRepository;
+    private  final EventTagRepository eventTagRepository;
     private final EventMapper eventMapper;
     private final UserService userService;
 
-    private volatile List<EventDetailsResponse> trendingCachedEvents=List.of();
+    private volatile Set<EventDetailsResponse> trendingCachedEvents=new HashSet<>();
 
     @Override
     @Transactional
@@ -59,12 +63,31 @@ public class EventServiceImpl implements EventService {
         Category category=categoryRepository.findById(eventCreationRequest.categoryId())
                 .orElseThrow(()->new EntityNotFoundException("Category with id= "+eventCreationRequest.categoryId()+" doesn't exist"));
 
+
+
         event.setCategory(category);
-           event.setCreatedBy(creator);
+        event.setCreatedBy(creator);
 
          Event savedEvent= eventRepository.save(event);
 
-          return eventMapper.toEventResponse(savedEvent);
+        processTags(eventCreationRequest.description(),savedEvent);
+
+        EventDetailsResponse baseResponse = eventMapper.toEventResponse(savedEvent);
+
+        EventDetailsResponse response = new EventDetailsResponse(
+                baseResponse.id(),
+                baseResponse.name(),
+                baseResponse.description(),
+                baseResponse.eventTime(),
+                 baseResponse.venue(),
+                  baseResponse.pricePerTicket(),
+                  baseResponse.availableTickets(),
+                    baseResponse.image(),
+                creator,
+                     category,
+                null
+        );
+          return response;
     }
 
     @Override
@@ -113,15 +136,20 @@ public class EventServiceImpl implements EventService {
     return events.map(eventMapper::fromProjectedEventToEventResponse);
     }
 
-    @Scheduled(fixedRate = 1,timeUnit = TimeUnit.HOURS)
+    @Scheduled(fixedRate = 4,timeUnit = TimeUnit.MINUTES)
     public void updateTrendingEvents() {
 
+        this.trendingCachedEvents.clear();
         List<Integer> topTagIds=tagRepository.getTopTagIds();
 
         int userId=1;// later we would expose auth id from security context
         List<EventWithBookingStatus> event=eventRepository.findTrendingEventsFilteredByTagOccurrence(topTagIds,userId);
 
-        this.trendingCachedEvents=event.stream().map(eventMapper::fromProjectedEventToEventResponse).toList();
+        this.trendingCachedEvents=event.stream().map(eventMapper::fromProjectedEventToEventResponse).collect(Collectors.toSet());
+
+        this.trendingCachedEvents.forEach((trend)->{
+            log.info("this is trending cached events {}",trend);
+        });
 
     }
 
@@ -132,9 +160,73 @@ public class EventServiceImpl implements EventService {
 
     }
 
-    public List<EventDetailsResponse> getTrendingEvents() {
+    public Set<EventDetailsResponse> getTrendingEvents() {
         return this.trendingCachedEvents;
     }
 
+    @Override
+    public CategoryResponse createCategory(String categoryName) {
+       Boolean categoryExists= categoryRepository.checkCategoryExistense(categoryName);
+        if(categoryExists) throw new DuplicateResourceException("Category with name = "+categoryName+ "already Exists", ResourceType.EVENT);
+
+        Category category=Category.builder().name(categoryName).build();
+
+
+       Category categoryEntity=categoryRepository.save(category);
+
+
+        return eventMapper.toCategoryResponse(categoryEntity);
+    }
+
+    @Override
+    public List<CategoryResponse> getAllCategories() {
+        return categoryRepository.findAll().stream().map(eventMapper::toCategoryResponse).toList();
+    }
+
+
+    @Transactional
+    private void processTags(String text,Event event){
+        Map<String,Integer>detectedTags=detectTags(text);
+        List<Tag> existingTags=tagRepository.findAll();
+
+        List<EventTag>newEventTags=new ArrayList<>();
+
+        existingTags.forEach(tag->{
+           if (detectedTags.containsKey(tag.getName())){
+               tag.setOccurrence(tag.getOccurrence()+detectedTags.get(tag.getName()));
+               detectedTags.remove(tag.getName());
+
+               newEventTags.add(EventTag.builder().event(event).tag(tag).build());
+           }
+
+        });
+
+
+
+        List<Tag> newAddedTags = detectedTags.entrySet().stream()
+                .map(entry ->
+                {
+                    Tag tag=new Tag(entry.getKey(), entry.getValue());
+                    newEventTags.add(EventTag.builder().event(event).tag(tag).build());
+                  return   tag;
+                }
+                        )
+                .toList();
+
+        tagRepository.saveAll(newAddedTags);
+          eventTagRepository.saveAll(newEventTags);
+
+    }
+    private Map<String, Integer> detectTags(String text) {
+        Map<String, Integer> detectedTags = new HashMap<>();
+
+        for (String word : text.split(" ")) {
+            if (word.startsWith("#")) {
+                detectedTags.merge(word, 1, Integer::sum);
+            }
+        }
+
+        return detectedTags;
+    }
 
 }

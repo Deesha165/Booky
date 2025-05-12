@@ -1,5 +1,6 @@
 package com.example.Bookify.service;
 
+import com.example.Bookify.dto.event.CategoryResponse;
 import com.example.Bookify.dto.event.EventCreationRequest;
 import com.example.Bookify.dto.event.EventDetailsResponse;
 import com.example.Bookify.dto.event.EventUpdateRequest;
@@ -8,6 +9,7 @@ import com.example.Bookify.repository.projection.EventWithBookingStatus;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Set;
 
 public interface EventService {
 
@@ -22,5 +24,10 @@ public interface EventService {
     Page<EventDetailsResponse> getEventsPagedFilteredByCategory(int userId,String categoryName,int page,int size,String sortBy);
 
 
-    List<EventDetailsResponse> getTrendingEvents();
+    Set<EventDetailsResponse> getTrendingEvents();
+
+
+    CategoryResponse createCategory(String categoryName);
+
+    List<CategoryResponse> getAllCategories();
 }

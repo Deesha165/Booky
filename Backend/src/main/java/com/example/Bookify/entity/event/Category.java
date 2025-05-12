@@ -4,10 +4,12 @@ package com.example.Bookify.entity.event;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @Builder
 @Entity
 @Table(name = "categories",
