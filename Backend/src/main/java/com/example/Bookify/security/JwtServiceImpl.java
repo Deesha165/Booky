@@ -23,6 +23,9 @@ public class JwtServiceImpl implements JwtService {
     @Value("${security.jwt.expiration-time}")
     private long jwtExpiration;
 
+    @Value("${security.jwt.refresh-token-expiration}")
+    private long refreshTokenExpiration;
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -61,11 +64,18 @@ public class JwtServiceImpl implements JwtService {
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        boolean x=(username.equals(userDetails.getUsername()));
-        boolean y=!isTokenExpired(token);
-        return x && y;
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
+    @Override
+    public String generateRefreshToken(UserDetails userDetails) {
+        return buildToken(new HashMap<>(), userDetails, refreshTokenExpiration);
+    }
+
+    @Override
+    public long getRefreshTokenExpiration() {
+        return refreshTokenExpiration;
+    }
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
@@ -87,4 +97,6 @@ public class JwtServiceImpl implements JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
+
 }

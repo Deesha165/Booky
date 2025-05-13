@@ -16,9 +16,10 @@ public class UserMapper {
 
     private PasswordEncoder passwordEncoder;
 
-    public AuthenticationResponse toAuthResponse(String token)
+    public AuthenticationResponse toAuthResponse(String accessToken,String refreshToken)
     {
-        return  AuthenticationResponse.builder().accessToken(token).build();
+        return  AuthenticationResponse.builder().accessToken(accessToken)
+                .refreshToken(refreshToken).build();
     }
     public User mapFromSignUpRequestToUser(RegisterRequest request, UserRole userRole) {
         return User.builder().
