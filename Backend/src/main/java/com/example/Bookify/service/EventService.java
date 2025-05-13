@@ -19,9 +19,9 @@ public interface EventService {
     int deleteEvent(int eventId);
     EventDetailsResponse getEvent(int eventId);
     Event getEventEntityById(int eventId);
-    Page<EventDetailsResponse> getAllEventsPaged(int userId,int page, int size, String sortBy);
+    Page<EventDetailsResponse> getAllEventsPaged(int page, int size, String sortBy);
 
-    Page<EventDetailsResponse> getEventsPagedFilteredByCategory(int userId,String categoryName,int page,int size,String sortBy);
+    Page<EventDetailsResponse> getEventsPagedFilteredByCategory(String categoryName,int page,int size,String sortBy);
 
 
     Set<EventDetailsResponse> getTrendingEvents();

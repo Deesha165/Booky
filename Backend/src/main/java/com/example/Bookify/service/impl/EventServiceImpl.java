@@ -21,6 +21,7 @@ import com.example.Bookify.repository.projection.EventWithBookingStatus;
 import com.example.Bookify.repository.EventRepository;
 import com.example.Bookify.service.EventService;
 import com.example.Bookify.service.UserService;
+import com.example.Bookify.util.AuthUtil;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +50,8 @@ public class EventServiceImpl implements EventService {
 
     private volatile Set<EventDetailsResponse> trendingCachedEvents=new HashSet<>();
 
+    private AuthUtil authUtil;
+
     @Override
     @Transactional
     public EventDetailsResponse createEvent(EventCreationRequest eventCreationRequest) {
@@ -58,8 +61,9 @@ public class EventServiceImpl implements EventService {
           if(eventExists) throw new DuplicateResourceException("Event with name = "+eventCreationRequest.name()+ "already Exists", ResourceType.EVENT);
 
           Event event= eventMapper.toEventEntity(eventCreationRequest);
+        User authUser=authUtil.getAuthenticatedUser();
 
-          User creator=userService.getUser(eventCreationRequest.creatorId());
+        User creator=userService.getUser(authUser.getId());
         Category category=categoryRepository.findById(eventCreationRequest.categoryId())
                 .orElseThrow(()->new EntityNotFoundException("Category with id= "+eventCreationRequest.categoryId()+" doesn't exist"));
 
@@ -119,37 +123,49 @@ public class EventServiceImpl implements EventService {
 
 
     @Override
-    public Page<EventDetailsResponse> getAllEventsPaged(int userId,int page,int size,String sortBy) {
+    public Page<EventDetailsResponse> getAllEventsPaged(int page,int size,String sortBy) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, sortBy));
-              Page<EventWithBookingStatus>events=eventRepository.findPagedEvents(userId,pageable);
+        User authUser=authUtil.getAuthenticatedUser();
+
+              Page<EventWithBookingStatus>events=eventRepository.findPagedEvents(authUser.getId(),pageable);
         return  events.map(eventMapper::fromProjectedEventToEventResponse);
     }
 
     @Override
-    public Page<EventDetailsResponse> getEventsPagedFilteredByCategory(int userId,String categoryName,int page,int size,String sortBy) {
+    public Page<EventDetailsResponse> getEventsPagedFilteredByCategory(String categoryName,int page,int size,String sortBy) {
 
 
         Pageable pageable=PageRequest.of(page,size,Sort.by(Sort.Direction.DESC,sortBy));
-        Page<EventWithBookingStatus> events=eventRepository.findPagedEventsFilteredByCategory(categoryName,userId,pageable);
+        User authUser=authUtil.getAuthenticatedUser();
+
+        Page<EventWithBookingStatus> events=eventRepository.findPagedEventsFilteredByCategory(categoryName,authUser.getId(),pageable);
 
     return events.map(eventMapper::fromProjectedEventToEventResponse);
     }
 
     @Scheduled(fixedRate = 4,timeUnit = TimeUnit.MINUTES)
-    public void updateTrendingEvents() {
+    public void updateTrendingEvents() throws IllegalAccessException {
 
-        this.trendingCachedEvents.clear();
-        List<Integer> topTagIds=tagRepository.getTopTagIds();
+        try{
+            User authUser=authUtil.getAuthenticatedUser();
 
-        int userId=1;// later we would expose auth id from security context
-        List<EventWithBookingStatus> event=eventRepository.findTrendingEventsFilteredByTagOccurrence(topTagIds,userId);
+            this.trendingCachedEvents.clear();
+            List<Integer> topTagIds=tagRepository.getTopTagIds();
 
-        this.trendingCachedEvents=event.stream().map(eventMapper::fromProjectedEventToEventResponse).collect(Collectors.toSet());
 
-        this.trendingCachedEvents.forEach((trend)->{
-            log.info("this is trending cached events {}",trend);
-        });
+            List<EventWithBookingStatus> event=eventRepository.findTrendingEventsFilteredByTagOccurrence(topTagIds,authUser.getId());
+
+            this.trendingCachedEvents=event.stream().map(eventMapper::fromProjectedEventToEventResponse).collect(Collectors.toSet());
+
+            this.trendingCachedEvents.forEach((trend)->{
+                log.info("this is trending cached events {}",trend);
+            });
+        }
+        catch (Exception ex){
+
+        }
+
 
     }
 

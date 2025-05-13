@@ -3,14 +3,20 @@ package com.example.Bookify.service.impl;
 import com.example.Bookify.dto.auth.AuthenticationRequest;
 import com.example.Bookify.dto.auth.AuthenticationResponse;
 import com.example.Bookify.dto.auth.RegisterRequest;
+import com.example.Bookify.dto.user.UserDetailsResponse;
 import com.example.Bookify.entity.user.User;
+import com.example.Bookify.enums.UserRole;
 import com.example.Bookify.exception.DuplicateResourceException;
+import com.example.Bookify.exception.EntityNotFoundException;
 import com.example.Bookify.exception.ResourceType;
 import com.example.Bookify.mapper.UserMapper;
 import com.example.Bookify.repository.UserRepository;
+import com.example.Bookify.security.JwtService;
 import com.example.Bookify.service.AuthenticationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,10 +25,13 @@ import org.springframework.stereotype.Service;
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    @Override
-    public User register(RegisterRequest request) {
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
-        User user = userMapper.mapFromSignRequestToUser(request);
+    @Override
+    public UserDetailsResponse register(RegisterRequest request, UserRole userRole) {
+
+        User user = userMapper.mapFromSignUpRequestToUser(request, userRole);
 
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new DuplicateResourceException("This email already exists", ResourceType.EMAIL);
@@ -30,11 +39,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         User savedUser=userRepository.save(user);
 
-        return savedUser;
+        return userMapper.toUserResponse(savedUser);
     }
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        return null;
+
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.email(),request.password()));
+
+        User user=userRepository.findByEmail(request.email()).orElseThrow(()->new EntityNotFoundException("user not found"));
+        String token=jwtService.generateToken(user);
+
+
+        return userMapper.toAuthResponse(token);
     }
 }

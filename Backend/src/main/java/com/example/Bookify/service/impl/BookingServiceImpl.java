@@ -14,6 +14,8 @@ import com.example.Bookify.service.BookingService;
 import com.example.Bookify.service.EventService;
 import com.example.Bookify.service.NotificationService;
 import com.example.Bookify.service.UserService;
+import com.example.Bookify.util.AuthUtil;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
@@ -32,11 +34,12 @@ public class BookingServiceImpl implements BookingService {
     private final UserService userService;
     private final EventService eventService;
     private final NotificationService notificationService;
+    private final AuthUtil authUtil;
 
 
     @Override
     @Transactional(isolation=Isolation.SERIALIZABLE)
-    public int bookEvent(int eventId,int userId) {
+    public int bookEvent(int eventId) {
 
 
 
@@ -44,7 +47,10 @@ public class BookingServiceImpl implements BookingService {
         Booking savedBooking;
         if(event.getAvailableTickets()>0){
             event.setAvailableTickets(event.getAvailableTickets()-1);
-            User user=userService.getUser(userId);
+
+            User authenticatedUser = authUtil.getAuthenticatedUser();
+
+            User user=userService.getUser(authenticatedUser.getId());
             Booking booking=Booking.builder()
                     .event(event)
                     .user(user)
@@ -114,5 +120,6 @@ public class BookingServiceImpl implements BookingService {
 
         return generatedTicketCode;
     }
+
 
 }

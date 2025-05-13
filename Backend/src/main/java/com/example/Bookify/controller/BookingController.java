@@ -7,6 +7,7 @@ import com.example.Bookify.service.BookingService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
@@ -17,13 +18,15 @@ public class BookingController {
 
     @PostMapping("/book-event/{eventId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public int bookEvent(@PathVariable int eventId,@RequestParam int userId){
+    @PreAuthorize("hasRole('USER')")
+    public int bookEvent(@PathVariable int eventId){
 
-        return bookingService.bookEvent(eventId,userId);
+        return bookingService.bookEvent(eventId);
     }
 
     @GetMapping("/verify")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('VERIFIER')")
     public EventReservationDetailsForVerification verifyReservation(@RequestParam String ticketCode){
 
         return bookingService.verifyReservation(ticketCode);

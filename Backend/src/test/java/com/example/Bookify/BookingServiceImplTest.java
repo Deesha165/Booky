@@ -12,6 +12,7 @@ import com.example.Bookify.service.EventService;
 import com.example.Bookify.service.NotificationService;
 import com.example.Bookify.service.UserService;
 import com.example.Bookify.service.impl.BookingServiceImpl;
+import com.example.Bookify.util.AuthUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.aggregator.ArgumentAccessException;
@@ -33,6 +34,7 @@ public class BookingServiceImplTest {
     private NotificationService notificationService;
 
     private BookingServiceImpl bookingService;
+    private AuthUtil authUtil;
 
     @BeforeEach
     void setUp() {
@@ -42,8 +44,9 @@ public class BookingServiceImplTest {
         userService = mock(UserService.class);
         eventService = mock(EventService.class);
         notificationService = mock(NotificationService.class);
+        authUtil=mock(AuthUtil.class);
 
-        bookingService = new BookingServiceImpl(bookingRepository, ticketRepository, userService, eventService, notificationService);
+        bookingService = new BookingServiceImpl(bookingRepository, ticketRepository, userService, eventService, notificationService,authUtil);
     }
     @Test
     void bookEvent_WhenNoTicketsAvailable_ShouldThrowException(){
@@ -54,7 +57,7 @@ public class BookingServiceImplTest {
         when(eventService.getEventEntityById(eventId)).thenReturn(event);
 
 
-        assertThrows(IllegalActionException.class, () -> bookingService.bookEvent(eventId, userId));
+        assertThrows(IllegalActionException.class, () -> bookingService.bookEvent(eventId));
     }
     @Test
     void bookEvent_WhenEmailFails_ShouldStillBook() {
@@ -77,10 +80,12 @@ public class BookingServiceImplTest {
         when(userService.getUser(userId)).thenReturn(user);
         when(ticketRepository.checkTicketExistenceByTicketCode(anyString())).thenReturn(false);
 
+        when(authUtil.getAuthenticatedUser()).thenReturn(user);
+
 
 
         doThrow(new RuntimeException("Email failed")).when(notificationService).sendMail(anyString(), any());
-        int bookingId = bookingService.bookEvent(eventId, userId);
+        int bookingId = bookingService.bookEvent(eventId);
         assertEquals(1, bookingId);
     }
     @Test
@@ -93,8 +98,8 @@ public class BookingServiceImplTest {
           when(eventService.getEventEntityById(eventId)).thenReturn(event);
           when(userService.getUser(userId)).thenReturn(user);
           when(bookingRepository.save(any())).thenThrow(new RuntimeException("a random database error "));
-
-          assertThrows(RuntimeException.class,()->bookingService.bookEvent(eventId,userId));
+        when(authUtil.getAuthenticatedUser()).thenReturn(user);
+          assertThrows(RuntimeException.class,()->bookingService.bookEvent(eventId));
           verify(notificationService,never()).sendMail(anyString(),any());
     }
 
@@ -109,6 +114,7 @@ public class BookingServiceImplTest {
 
         User user = new User();
         user.setEmail("testmustafe@example.com");
+       user.setId(99);
 
         Booking booking = Booking.builder().id(1).user(user).event(event).build();
         Ticket ticket = Ticket.builder().ticketCode("DE45t5F456").booking(booking).build();
@@ -117,14 +123,15 @@ public class BookingServiceImplTest {
         when(bookingRepository.save(any())).thenReturn(booking);
                          when(ticketRepository.save(any())).thenReturn(ticket);
         when(eventService.getEventEntityById(eventId)).thenReturn(event);
-        when(userService.getUser(userId)).thenReturn(user);
+        when(userService.getUser(anyInt())).thenReturn(user);
         when(
                 ticketRepository.checkTicketExistenceByTicketCode(anyString())).thenReturn(false);
+        when(authUtil.getAuthenticatedUser()).thenReturn(user);
 
-        int bookingId = bookingService.bookEvent(eventId, userId);
+        int bookingId = bookingService.bookEvent(eventId);
 
         assertEquals(1,bookingId);
-        verify(notificationService).sendMail(eq(user.getEmail()), any());
+        verify(notificationService).sendMail(eq(user.getEmail()), any(EventReservationDetails.class));
 
     }
 

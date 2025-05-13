@@ -28,7 +28,6 @@ double pricePerTicket,
 
         int totalTickets,
 
-        int creatorId,
       int categoryId,
 
 String image

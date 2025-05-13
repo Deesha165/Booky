@@ -15,6 +15,7 @@ import com.example.Bookify.repository.TagRepository;
 import com.example.Bookify.service.EventService;
 import com.example.Bookify.service.UserService;
 import com.example.Bookify.service.impl.EventServiceImpl;
+import com.example.Bookify.util.AuthUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -39,6 +40,7 @@ public class EventServiceImplTest {
     private EventTagRepository eventTagRepository;
     private volatile Set<EventDetailsResponse> trendingCachedEvents= new HashSet<>();
 
+    private AuthUtil authUtil;
     private EventService eventService;
     @BeforeEach
     void setUp(){
@@ -50,8 +52,8 @@ public class EventServiceImplTest {
         userService=mock(UserService.class);
         trendingCachedEvents=mock(Set.class);
         eventTagRepository=mock(EventTagRepository.class);
-
-        eventService=new EventServiceImpl(eventRepository,categoryRepository,tagRepository,eventTagRepository,eventMapper,userService,trendingCachedEvents);
+  authUtil=mock(AuthUtil.class);
+        eventService=new EventServiceImpl(eventRepository,categoryRepository,tagRepository,eventTagRepository,eventMapper,userService,trendingCachedEvents,authUtil);
 
     }
     @Test

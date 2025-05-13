@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,18 +25,21 @@ public class EventController {
 
     @GetMapping("/trending")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public Set<EventDetailsResponse> getTrendingEvents() {
         return eventService.getTrendingEvents();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
     public EventDetailsResponse createEvent(@Valid @RequestBody EventCreationRequest eventCreationRequest){
 
         return eventService.createEvent(eventCreationRequest);
     }
     @PostMapping("/category/{categoryName}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
     public CategoryResponse createCategory(@PathVariable String categoryName){
 
         return eventService.createCategory(categoryName);
@@ -43,43 +47,47 @@ public class EventController {
 
     @GetMapping("/category")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public List<CategoryResponse> getAllCategories(){
 
         return eventService.getAllCategories();
     }
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public EventDetailsResponse modifyEvent(@Valid @RequestBody EventUpdateRequest eventUpdateRequest){
 
         return eventService.updateEvent(eventUpdateRequest);
     }
     @DeleteMapping("{eventId}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public int removeEvent(@PathVariable int eventId){
         return eventService.deleteEvent(eventId);
     }
     @GetMapping("{eventId}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public EventDetailsResponse getEvent(@PathVariable int eventId){
         return eventService.getEvent(eventId);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('USER')")
     public Page<EventDetailsResponse> getAllEventsPaged(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "2") int size,
             @RequestParam(defaultValue = "eventTime") String sortBy,
-            @RequestParam int userId,
             @RequestParam(required = false) String categoryName
     ){
         if (categoryName == null) {
-            return eventService.getAllEventsPaged(userId, page, size, sortBy);
+            return eventService.getAllEventsPaged( page, size, sortBy);
         }
 
         else {
 
-            return eventService.getEventsPagedFilteredByCategory(userId, categoryName, page, size, sortBy);
+            return eventService.getEventsPagedFilteredByCategory(categoryName, page, size, sortBy);
         }
     }
 

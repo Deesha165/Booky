@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -85,20 +87,20 @@ public class GlobalExceptionHandler {
     }
 
 
- /*   @ExceptionHandler(AccessDeniedException.class)
+    @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
         Map<String, String> details = new HashMap<>();
         details.put("general", e.getMessage());
-        return buildErrorResponse(ErrorCode.ACCESS_DENIED, e.getMessage(), FORBIDDEN,details);
+        return buildErrorResponse( e.getMessage(), FORBIDDEN,details);
     }
 
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ErrorResponseDTO> handleAuthenticationException(AuthenticationException e) {
+    public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException e) {
         Map<String, String> details = new HashMap<>();
         details.put("general", e.getMessage());
-        return buildErrorResponse(ErrorCode.UNAUTHORIZED, e.getMessage(), UNAUTHORIZED,details);
-    }*/
+        return buildErrorResponse(e.getMessage(), UNAUTHORIZED,details);
+    }
 
 
     private ResponseEntity<ErrorResponse> buildErrorResponse( String message, HttpStatus status, Map<String, String> details) {
