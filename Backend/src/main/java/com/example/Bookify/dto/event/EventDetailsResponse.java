@@ -24,8 +24,7 @@ public record EventDetailsResponse(
 
                             int availableTickets,
                             String image,
-                            User creator,
-                            Category category,
+                            CategoryResponse category,
                             Boolean isBooked
 ) {
 }

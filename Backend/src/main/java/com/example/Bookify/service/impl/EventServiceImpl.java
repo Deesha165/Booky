@@ -78,7 +78,8 @@ public class EventServiceImpl implements EventService {
 
         EventDetailsResponse baseResponse = eventMapper.toEventResponse(savedEvent);
 
-        EventDetailsResponse response = new EventDetailsResponse(
+
+        return new EventDetailsResponse(
                 baseResponse.id(),
                 baseResponse.name(),
                 baseResponse.description(),
@@ -87,11 +88,9 @@ public class EventServiceImpl implements EventService {
                   baseResponse.pricePerTicket(),
                   baseResponse.availableTickets(),
                     baseResponse.image(),
-                creator,
-                     category,
+                     eventMapper.toCategoryResponse(category),
                 null
         );
-          return response;
     }
 
     @Override
