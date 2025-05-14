@@ -1,0 +1,44 @@
+<div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo-container">
+            <i class="fas fa-university"></i>
+            <span>Admin Dashboard</span>
+        </div>
+    </div>
+
+    <div class="sidebar-content">
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a (click)="goToProfile()" class="nav-link">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a (click)="goToAdminDashboard()" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a (click)="goToActiveAccounts()" class="nav-link">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Active Accounts</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a (click)="goToBlockedAccounts()" class="nav-link">
+                    <i class="fas fa-ban"></i>
+                    <span>Blocked Accounts</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="sidebar-footer">
+        <a href="/login" class="logout-link" (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+.container {
+    padding-left: 0px;  /* Decrease left padding */
+    padding-right: 0px; /* Decrease right padding */
+  }
+
+.store-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 15px;
+  }
+  
+  .store-column {
+    display: flex;
+    justify-content: center;
+  }
+  

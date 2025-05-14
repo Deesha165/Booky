@@ -6,6 +6,7 @@ import { RegistrationRequest } from "../dtos/auth/RegisterationRequest.dto";
 import { UserDetails } from "../models/user/user-details.model";
 import { AuthenticationRequest } from "../dtos/auth/AuthenticationRequest.dto";
 import { AuthDetails } from "../models/auth-details.model";
+import { UserClaims } from "../models/user/user-claims.model";
 
 @Injectable({
     providedIn:'root'
@@ -55,6 +56,6 @@ export class AuthService{
         localStorage.clear();
     }
 
-
+    
 
 }

@@ -1,0 +1,24 @@
+<app-customer-navebare (searchTextChanged)="handleSearch($event)"></app-customer-navebare>
+
+<div class="container mt-4">
+  <div class="text-center py-4 bg-light rounded shadow-sm">
+    <h2 class="fw-bold mb-2 text-primary">Welcome to Bookify!</h2>
+    <p class="text-muted mb-0">Discover trending event, amazing offers, and manage your reservations easily.</p>
+  </div>
+</div>
+
+<div 
+  class="profile-container"
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="500"
+  (scrolled)="onScroll()"
+  [scrollWindow]="true">
+  
+<div class="container mt-4">    
+  <div class="store-grid">
+    <div class="store-column" *ngFor="let event of filteredEvents">
+      <app-card-event [event]="event"></app-card-event>
+    </div>
+  </div>
+</div>

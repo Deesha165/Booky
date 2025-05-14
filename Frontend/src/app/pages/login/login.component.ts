@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { AuthDetails } from '../../models/auth-details.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TokenService } from '../../services/token.service';
+import { UserClaims } from '../../models/user/user-claims.model';
+import { UserRole } from '../../enums/user-role.model';
 
 @Component({
   selector: 'app-login',
@@ -21,8 +24,9 @@ export class LoginComponent {
     };
     userId: number = 0;
     fieldErrors: { [key: string]: string } = {};
+    userClaims:UserClaims|null=null;
 
-    constructor(private authService: AuthService, private route: Router) {localStorage.clear();}
+    constructor(private authService: AuthService, private route: Router, private tokenService :TokenService) {localStorage.clear();}
 
     onSubmit() {
        
@@ -33,9 +37,25 @@ export class LoginComponent {
                 console.log('Login successful:', response);
        
              
-                localStorage.setItem('accessToken', response.accessToken.toLowerCase());
-                localStorage.setItem('refreshToken', response.refreshToken.toLowerCase());
+                localStorage.setItem('accessToken', response.accessToken);
+                localStorage.setItem('refreshToken', response.refreshToken);
 
+           this.tokenService.getUserClaims().subscribe((data)=>{
+            this.userClaims=data;
+            console.log(this.userClaims);
+            if(this.userClaims.userRole===UserRole.USER){
+              console.log('inside');  
+              this.route.navigate(['/home']);
+            }
+            else if(this.userClaims.userRole===UserRole.ADMIN){
+
+            }
+            else{
+
+            }
+
+           })
+          
               
             },
             error: (err) => {

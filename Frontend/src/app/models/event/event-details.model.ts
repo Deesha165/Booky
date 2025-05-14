@@ -1,14 +1,13 @@
 import { CategoryDetails } from "./category-details.model"
 
 export interface EventDetails{
-id:Number,
+id:number,
 name:String,
 description:String,
 eventTime:Date,
 venue:String,
-pricePerTicket:Number,
-availableTickets:Number,
+pricePerTicket:number,
+availableTickets:number,
 image:String,
-category:CategoryDetails,
 isBooked:Boolean
 }

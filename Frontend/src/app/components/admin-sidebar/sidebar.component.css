@@ -1,0 +1,213 @@
+button{
+    margin:5px 5px;
+    width: 100%;
+    }
+    .cus-mar{
+        margin-left: 10px;
+    }
+    
+    .cus-background{
+        background-color: black;
+        color: white;
+        margin: 30px 20px !important;
+    }
+    .sidebar {
+        width: 280px;
+        height: 100vh;
+        background: linear-gradient(180deg, #2c3e50 0%, #3498db 100%);
+        color: white;
+        position: fixed;
+        left: 0;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        z-index: 1000;
+    }
+
+    .sidebar-header {
+        padding: 2rem 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: white;
+    }
+
+    .logo-container i {
+        font-size: 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+    }
+
+    .logo-container:hover i {
+        transform: scale(1.1);
+    }
+
+    .sidebar-content {
+        flex: 1;
+        padding: 2rem 0;
+        overflow-y: auto;
+    }
+
+    .nav-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-item {
+        margin: 0.5rem 1rem;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.5rem;
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .nav-link::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background: #3498db;
+        transform: scaleY(0);
+        transition: transform 0.3s ease;
+    }
+
+    .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        transform: translateX(5px);
+    }
+
+    .nav-link:hover::before {
+        transform: scaleY(1);
+    }
+
+    .nav-link i {
+        font-size: 1.2rem;
+        width: 24px;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .nav-link:hover i {
+        transform: scale(1.2);
+    }
+
+    .nav-link span {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .sidebar-footer {
+        padding: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logout-link {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.5rem;
+        color: #e74c3c;
+        text-decoration: none;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .logout-link:hover {
+        background: rgba(231, 76, 60, 0.1);
+        transform: translateX(5px);
+    }
+
+    .logout-link i {
+        font-size: 1.2rem;
+        width: 24px;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .logout-link:hover i {
+        transform: scale(1.2);
+    }
+
+    .logout-link span {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    /* Scrollbar Styling */
+    .sidebar-content::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .sidebar-content::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+    }
+
+    .sidebar-content::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+    }
+
+    .sidebar-content::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 70px;
+        }
+
+        .logo-container span,
+        .nav-link span,
+        .logout-link span {
+            display: none;
+        }
+
+        .nav-link,
+        .logout-link {
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .nav-link i,
+        .logout-link i {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .logo-container {
+            justify-content: center;
+        }
+
+        .logo-container i {
+            font-size: 1.8rem;
+            padding: 0.8rem;
+        }
+    }
+     

@@ -1,0 +1,50 @@
+.container {
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  padding: 30px;
+}
+
+.card.mb-3 {
+  border: none;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  transition: box-shadow 0.3s ease;
+}
+
+.card.mb-3:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.card-title {
+  font-size: 2rem;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card-text {
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: #495057;
+}
+
+.alert-success {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.alert-success::before {
+  content: "✔";
+  font-size: 1.3rem;
+  color: green;
+  margin-right: 10px;
+}
+
+.img-fluid {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
