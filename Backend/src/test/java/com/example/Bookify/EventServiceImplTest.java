@@ -12,6 +12,7 @@ import com.example.Bookify.repository.CategoryRepository;
 import com.example.Bookify.repository.EventRepository;
 import com.example.Bookify.repository.EventTagRepository;
 import com.example.Bookify.repository.TagRepository;
+import com.example.Bookify.service.BookingService;
 import com.example.Bookify.service.EventService;
 import com.example.Bookify.service.UserService;
 import com.example.Bookify.service.impl.EventServiceImpl;
@@ -42,6 +43,7 @@ public class EventServiceImplTest {
 
     private AuthUtil authUtil;
     private EventService eventService;
+    private BookingService bookingService;
     @BeforeEach
     void setUp(){
         eventRepository= mock(EventRepository.class);
@@ -52,8 +54,10 @@ public class EventServiceImplTest {
         userService=mock(UserService.class);
         trendingCachedEvents=mock(Set.class);
         eventTagRepository=mock(EventTagRepository.class);
+        bookingService=mock(BookingService.class);
+
   authUtil=mock(AuthUtil.class);
-        eventService=new EventServiceImpl(eventRepository,categoryRepository,tagRepository,eventTagRepository,eventMapper,userService,trendingCachedEvents,authUtil);
+        eventService=new EventServiceImpl(eventRepository,categoryRepository,tagRepository,eventTagRepository,eventMapper,userService,bookingService,trendingCachedEvents,authUtil);
 
     }
     @Test

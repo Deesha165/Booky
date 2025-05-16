@@ -9,7 +9,7 @@ import { EventReservationDetailsVerification } from "../models/booking/event-res
 })
 export class BookingService{
 
-private apiUrl = `${environment.apiUrl}/booking`;
+private apiUrl = `${environment.apiUrl}/api/booking`;
     private headers: HttpHeaders = new HttpHeaders();
 
     constructor(private httpClient: HttpClient) {

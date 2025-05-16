@@ -7,6 +7,5 @@ export interface EventCreationRequest{
     venue:String,
     pricePerTicket:Number,
     availableTickets:Number,
-    image:String,
     categoryId:Number
 }

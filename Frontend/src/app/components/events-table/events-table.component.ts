@@ -12,6 +12,7 @@ import { CategoryDetails } from '../../models/event/category-details.model';
 import { AuthService } from '../../services/auth.service';
 import { RegistrationRequest } from '../../dtos/auth/RegisterationRequest.dto';
 import { UserService } from '../../services/user.service';
+import { ImageService } from '../../services/image.servicec';
 
 @Component({
   selector: 'app-events-table',
@@ -24,6 +25,7 @@ export class EventsTableComponent {
 
    Events: EventDetails[] = [];
 categories:CategoryDetails[]=[];
+  selectedImageFile!: File;
 
   filteredEvents: EventDetails[] = [];
   selectedEvent: EventDetails | null = null;
@@ -40,16 +42,16 @@ newCategory:string='';
     venue: '',
     pricePerTicket: 0,
     availableTickets: 0,
-    image: '',
     categoryId: 0
   };
+  imagePreviewUrl: string | ArrayBuffer | null = null;
     currentPage = 0;
   totalPages = 0;
-  pageSize = 5;
+  pageSize = 15;
 
   constructor(
     private eventService: EventService,
-  
+   private imageService:ImageService,  
     private userService:UserService,
     private router: Router
   ) {}
@@ -64,11 +66,25 @@ newCategory:string='';
     this.currentPage++;
     this.fetchEvents();
   };
+
+onFileSelected(event: Event): void {
+  const target = event.target as HTMLInputElement;
+  if (target.files && target.files.length > 0) {
+    this.selectedImageFile = target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreviewUrl = reader.result;
+    };
+    reader.readAsDataURL(this.selectedImageFile);
+  }
+}
   fetchEvents(): void {
     this.eventService.getAllEventsPaged(this.currentPage,this.pageSize, '').subscribe({
       next: (page) => {
         this.Events = [...this.Events,...page.content];
 
+        console.log(this.Events);
         this.filteredEvents = this.Events;
       },
       error: (err: any) => {
@@ -142,6 +158,11 @@ this.categories=data;
     if (this.newEvent.name.trim()) {
       this.eventService.createEvent(this.newEvent).subscribe({
         next: (createdEvent: EventDetails) => {
+           
+          this.imageService.uploadImage(createdEvent.id,this.selectedImageFile).subscribe(()=>{
+                 console.log("uploaded image",this.selectedImageFile);
+           });
+
           this.Events.push(createdEvent);
           this.filterEvents();
         },

@@ -204,6 +204,15 @@ public class EventServiceImpl implements EventService {
         return categoryRepository.findAll().stream().map(eventMapper::toCategoryResponse).toList();
     }
 
+    @Override
+    @Transactional
+    public void updateEventImageUrl(int id, String imageUrl) {
+
+        Event event=getEventEntityById(id);
+        event.setImage(imageUrl);
+
+    }
+
 
     @Transactional
     private void processTags(String text,Event event){

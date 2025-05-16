@@ -11,7 +11,7 @@ import { Page } from "../models/page.model";
 })
 export class UserService{
 
-        private apiUrl = `${environment.apiUrl}/user`;
+        private apiUrl = `${environment.apiUrl}/api/user`;
     private headers: HttpHeaders = new HttpHeaders();
 
     constructor(private httpClient: HttpClient) {

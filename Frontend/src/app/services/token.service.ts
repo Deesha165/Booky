@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 })
 export class TokenService{
 
-       private apiUrl = `${environment.apiUrl}/token`;
+       private apiUrl = `${environment.apiUrl}/api/token`;
     private headers: HttpHeaders = new HttpHeaders();
 
     constructor(private httpClient: HttpClient) {

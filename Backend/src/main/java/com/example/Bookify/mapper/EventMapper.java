@@ -24,7 +24,6 @@ public class EventMapper {
                .totalTickets(eventCreationRequest.totalTickets())
                .availableTickets(eventCreationRequest.totalTickets())
                .pricePerTicket(eventCreationRequest.pricePerTicket())
-               .image(eventCreationRequest.image()==null ? null: eventCreationRequest.image())
                .build();
    }
 

@@ -4,6 +4,7 @@ import { EventDetails } from '../../models/event/event-details.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BookingService } from '../../services/booking.service';
+import { environment } from '../../../environment/environment';
 
 @Component({
   selector: 'app-card-event',
@@ -14,6 +15,8 @@ import { BookingService } from '../../services/booking.service';
 })
 export class CardeventComponent {
   @Input() event!: EventDetails;
+
+  serverUrl:string=`${environment.apiUrl}`;
 
   constructor(private bookingService: BookingService,private router:Router) {}
 

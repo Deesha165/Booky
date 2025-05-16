@@ -28,9 +28,7 @@ double pricePerTicket,
 
         int totalTickets,
 
-      int categoryId,
-
-String image
+      int categoryId
 ) {
 }
 

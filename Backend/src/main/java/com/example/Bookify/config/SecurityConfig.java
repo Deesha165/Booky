@@ -38,7 +38,8 @@ public class SecurityConfig {
 
     private static final String[] AUTH_WHITELIST = {
             "api/auth/**",
-            "api/token/refresh"
+            "api/token/refresh",
+            "api/media/**"
     };
 
     @Bean

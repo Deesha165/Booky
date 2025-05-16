@@ -30,4 +30,6 @@ public interface EventService {
     CategoryResponse createCategory(String categoryName);
 
     List<CategoryResponse> getAllCategories();
+
+    void updateEventImageUrl(int id, String imageUrl);
 }

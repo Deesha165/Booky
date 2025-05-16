@@ -13,7 +13,7 @@ import { UserClaims } from "../models/user/user-claims.model";
 })
 export class AuthService{
 
-       private apiUrl = `${environment.apiUrl}/auth`;
+       private apiUrl = `${environment.apiUrl}/api/auth`;
     private headers: HttpHeaders = new HttpHeaders();
 
     constructor(private httpClient: HttpClient) {

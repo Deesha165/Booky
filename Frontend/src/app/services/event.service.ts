@@ -12,7 +12,7 @@ import { Page } from "../models/page.model";
   providedIn: 'root'
 })
 export class EventService {
-  private apiUrl = `${environment.apiUrl}/event`;
+  private apiUrl = `${environment.apiUrl}/api/event`;
 
   constructor(private httpClient: HttpClient) {}
 
