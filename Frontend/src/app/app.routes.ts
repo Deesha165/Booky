@@ -5,21 +5,22 @@ import { EventComponent } from './pages/event/event.component';
 import { CustomereventComponent } from './pages/user/home/customer-store.component';
 import { BookingStatusScreenComponent } from './pages/booking-status-screen/booking-status-screen.component';
 import { AdminEventsComponent } from './pages/admin/admin-events/admin-events.component';
+import { AuthGuard } from './guards/auth.guard';
 
 
 export const routes: Routes = [
-    {
-        path:'event/:id'
-    ,
-    component:EventComponent
-    },
+  
     {
 path:'home',
-component:CustomereventComponent
+component:CustomereventComponent,
+canActivate:[AuthGuard],
+data:{role:'USER'}
     },
 {
     path:'admin/event',
-    component:AdminEventsComponent
+    component:AdminEventsComponent,
+    canActivate:[AuthGuard],
+      data:{role:'ADMIN'}
 }
     ,
     {
