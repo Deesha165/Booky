@@ -102,8 +102,10 @@ public class EventServiceImpl implements EventService {
         Event event=getEventEntityById(eventUpdateRequest.eventId());
 
         event.setEventTime(eventUpdateRequest.eventTime());
-                       event.setDescription(event.getDescription());
-        event.setImage(event.getImage());
+        event.setDescription(eventUpdateRequest.description());
+        event.setName(eventUpdateRequest.name());
+        event.setVenue(eventUpdateRequest.venue());
+
 
         return eventMapper.toEventResponse(event);
     }
@@ -115,6 +117,7 @@ public class EventServiceImpl implements EventService {
         Event event=getEventEntityById(eventId);
 
         bookingService.deleteBookingsByEventId(eventId);
+
         eventTagRepository.deleteByEventId(eventId);
 
         eventRepository.delete(event);
@@ -149,17 +152,16 @@ public class EventServiceImpl implements EventService {
     return events.map(eventMapper::fromProjectedEventToEventResponse);
     }
 
-    @Scheduled(fixedRate = 4,timeUnit = TimeUnit.MINUTES)
+    @Scheduled( fixedRate = 10,timeUnit = TimeUnit.MINUTES)
     public void updateTrendingEvents() throws IllegalAccessException {
 
         try{
-            User authUser=authUtil.getAuthenticatedUser();
 
             this.trendingCachedEvents.clear();
             List<Integer> topTagIds=tagRepository.getTopTagIds();
 
 
-            List<EventWithBookingStatus> event=eventRepository.findTrendingEventsFilteredByTagOccurrence(topTagIds,authUser.getId());
+            List<EventWithBookingStatus> event=eventRepository.findTrendingEventsFilteredByTagOccurrence(topTagIds);
 
             this.trendingCachedEvents=event.stream().map(eventMapper::fromProjectedEventToEventResponse).collect(Collectors.toSet());
 
@@ -203,6 +205,7 @@ public class EventServiceImpl implements EventService {
     public List<CategoryResponse> getAllCategories() {
         return categoryRepository.findAll().stream().map(eventMapper::toCategoryResponse).toList();
     }
+
 
     @Override
     @Transactional

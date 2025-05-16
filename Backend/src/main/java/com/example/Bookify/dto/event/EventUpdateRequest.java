@@ -17,6 +17,7 @@ public record EventUpdateRequest(
                                  @FutureTime
                                  LocalDateTime eventTime,
 
-                                 String image
+                                 String name,
+                                 String venue
 ) {
 }

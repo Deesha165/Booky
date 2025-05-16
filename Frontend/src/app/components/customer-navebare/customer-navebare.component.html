@@ -1,78 +1,63 @@
 <header class="header py-3 bg-white shadow-sm sticky-top">
   <div class="container d-flex flex-wrap justify-content-between align-items-center">
+    <div class="d-flex align-items-center me-4">
+      <a href="#" class="brand-logo d-flex align-items-center text-decoration-none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#0d6efd" class="bi bi-ticket-detailed me-2" viewBox="0 0 16 16">
+          <path d="M0 4.5A.5.5 0 0 1 .5 4H15.5a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 0 0 3v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1a1.5 1.5 0 0 0 0-3v-1zM1 5v.537a2.5 2.5 0 0 1 0 4.926V11h14V10.463a2.5 2.5 0 0 1 0-4.926V5H1zm2 1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm5-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+        <span class="fs-5 fw-bold text-primary">Bookify</span>
+      </a>
+    </div>
 
-   <div class="d-flex align-items-center me-4">
-  <a href="#" class="d-flex align-items-center text-decoration-none">
-    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#0d6efd" class="bi bi-ticket-detailed me-2" viewBox="0 0 16 16">
-      <path d="M0 4.5A.5.5 0 0 1 .5 4H15.5a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 0 0 3v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1a1.5 1.5 0 0 0 0-3v-1zM1 5v.537a2.5 2.5 0 0 1 0 4.926V11h14V10.463a2.5 2.5 0 0 1 0-4.926V5H1zm2 1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm5-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/>
-    </svg>
-    <span class="fs-5 fw-bold text-primary">Bookify</span>
-  </a>
-</div>
-
-
-    <div class="flex-grow-1 mx-3"
-         *ngIf="!hideSearch"
-         [style.display]="hideSearch ? 'none' : 'block'"
-    >
-      <form
-        class="position-relative"
-        (ngSubmit)="onSearch(searchInput.value)">
+    <div class="flex-grow-1 mx-3" *ngIf="!hideSearch">
+      <form class="position-relative" (ngSubmit)="onSearch(searchInput.value)">
         <input
-            #searchInput
-            type="text"
-            name="search"
-            id="searchInput"
-            class="form-control ps-5"
-            placeholder="Search for stores..."
-            style="height: 48px;"
-            autocomplete="off"
-    
-          />
-        <button
-          type="submit"
-          class="btn position-absolute top-50 start-0 translate-middle-y ps-3 border-0 bg-transparent">
+          #searchInput
+          type="text"
+          name="search"
+          class="form-control search-input ps-5"
+          placeholder="Search for stores..."
+          style="height: 48px;"
+          autocomplete="off"
+        />
+        <button type="submit" class="btn position-absolute top-50 start-0 translate-middle-y ps-3 border-0 bg-transparent">
           <i class="fas fa-search"></i>
         </button>
       </form>
     </div>
 
-    <div class="d-flex align-items-center">
-      <div class="dropdown">
-        <button
-          class="btn dropdown-toggle d-flex align-items-center"
-          data-bs-toggle="dropdown"
-          aria-expanded="false">
-          <div class="text-start d-none d-md-block">
-            <p *ngIf="isLoggedIn; else guestTemplate" class="mb-0 small">Hello, {{ userName }}</p>
-            <ng-template #guestTemplate>
-              <p class="mb-0 small">Hello, User</p>
-            </ng-template>
-            <strong>Account & Options</strong>
-           
-          </div>
-        </button>
-
-        <ul class="dropdown-menu dropdown-menu-end">
-         
-
-          <ng-container *ngIf="isLoggedIn; else loginTemplate">
-            <li>
-              <a class="dropdown-item" (click)="onSignOut()" style="cursor: pointer;">
-                <i class="fas fa-sign-out-alt me-2"></i>Sign Out
-              </a>
-            </li>
-          </ng-container>
-
-          <ng-template #loginTemplate>
-            <li>
-              <a class="dropdown-item" [routerLink]="['/login']" routerLinkActive="active">
-                <i class="fas fa-sign-in-alt me-2"></i>Sign Out
-              </a>
-            </li>
+    <div class="user-dropdown" (click)="toggleDropdown()">
+      <div class="dropdown-toggle">
+        <div class="user-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="user-greeting">
+          <span *ngIf="isLoggedIn; else guestTemplate">Hello, {{ userName }}</span>
+          <ng-template #guestTemplate>
+            <span>Hello, User</span>
           </ng-template>
-        </ul>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+
+      <div class="dropdown-menu" [class.show]="isDropdownOpen">
+
+        
+        <a class="dropdown-item" (click)="loadTrending()">
+          <i class="fas fa-chart-line"></i>
+          <span>Trending</span>
+        </a>
+        <a  class="dropdown-item" (click)="goToSettings()">
+          <i class="fas fa-cog"></i>
+          <span>Settings</span>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a  class="dropdown-item" (click)="onSignOut()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Log Out</span>
+        </a>
       </div>
     </div>
   </div>
 </header>
+

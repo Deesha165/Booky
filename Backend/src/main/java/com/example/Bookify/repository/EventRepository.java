@@ -72,12 +72,12 @@ public interface EventRepository extends JpaRepository<Event,Integer> {
     FROM EventTag et
     join et.event e
     join et.tag t
-    LEFT JOIN Booking b ON b.event.id = e.id AND b.user.id = :userId
+    LEFT JOIN Booking b ON b.event.id = e.id 
     where t.id in :tagIds
     
             """)
-    List<EventWithBookingStatus> findTrendingEventsFilteredByTagOccurrence(   @Param("tagIds") List<Integer> tagIds,
-                                                                                    @Param("userId") int userId);
+    List<EventWithBookingStatus> findTrendingEventsFilteredByTagOccurrence(   @Param("tagIds") List<Integer> tagIds
+                                                                              );
 
 
 

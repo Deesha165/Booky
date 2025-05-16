@@ -40,8 +40,7 @@ public class ImageStorageController {
     @GetMapping("images/{filename:.+}")
     public ResponseEntity<?> serveImage(@PathVariable String filename) {
         try {
-            byte[] fileBytes = imageStorageService.loadImageAsBytes(filename);
-            String contentType = imageStorageService.getContentType(filename);
+            byte[] fileBytes = imageStorageService.loadImageAsBytes(filename);String contentType = imageStorageService.getContentType(filename);
 
             return ResponseEntity.ok()
                     .header("Content-Type",

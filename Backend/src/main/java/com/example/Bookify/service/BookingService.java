@@ -11,4 +11,5 @@ public interface BookingService {
 
     void deleteBookingsByEventId(int eventId);
 
+    void deleteTicketsByBookingId(int bookingId);
 }

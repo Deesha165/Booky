@@ -19,7 +19,7 @@ export class CustomereventComponent implements OnInit {
   events: EventDetails[] = [];
   filteredEvents: EventDetails[] = [];
   error: string | null = null;
-
+isTrending:boolean=false;
   currentPage = 0;
   totalPages = 0;
   pageSize = 5;
@@ -35,10 +35,29 @@ export class CustomereventComponent implements OnInit {
     this.loadevents();
   }
 
-  onScroll = () => {
+handleTrending(trendingState:boolean){
+this.isTrending=trendingState;
   
-    this.currentPage++;
+if(this.isTrending){
+this.eventService.getTrendingEvents().subscribe({
+  next:(data)=>{
+this.filteredEvents=data;
+  },
+  error:(error)=>{
+console.log('failed to get trending events');
+  }
+})
+}
+
+}
+  onScroll = () => {
+  console.log( this.isTrending);
+  
+  if(!this.isTrending){
+ this.currentPage++;
     this.loadevents(this.searchTerm);
+  }
+   
   };
 
 loadevents(searchTerm: string = '', reset: boolean = false): void {
@@ -68,6 +87,7 @@ loadevents(searchTerm: string = '', reset: boolean = false): void {
   handleSearch(searchText: string): void {
     this.currentPage = 0;
     this.searchTerm=searchText;
+    console.log(searchText);
     this.loadevents(this.searchTerm,true);
   }
 

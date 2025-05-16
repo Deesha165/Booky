@@ -30,7 +30,7 @@ public class Event {
 
     @NotNull(message = "Event name cannot be null")
     @Column(name = "event_name",nullable = false,unique = true)
-    @Size(min = 5,message = "user name must be at least three characters")
+    @Size(min = 3,message = "user name must be at least three characters")
     private String name;
 
     @Column(name = "description")

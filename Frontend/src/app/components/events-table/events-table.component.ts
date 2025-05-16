@@ -13,6 +13,7 @@ import { AuthService } from '../../services/auth.service';
 import { RegistrationRequest } from '../../dtos/auth/RegisterationRequest.dto';
 import { UserService } from '../../services/user.service';
 import { ImageService } from '../../services/image.servicec';
+import { EventUpdateRequest } from '../../dtos/event/event-update-request.dto';
 
 @Component({
   selector: 'app-events-table',
@@ -21,6 +22,9 @@ import { ImageService } from '../../services/image.servicec';
   styleUrls: ['./events-table.component.css']
 })
 export class EventsTableComponent {
+viewUserDetails(arg0: any) {
+throw new Error('Method not implemented.');
+}
   searchQuery: string = '';
 
    Events: EventDetails[] = [];
@@ -28,7 +32,17 @@ categories:CategoryDetails[]=[];
   selectedImageFile!: File;
 
   filteredEvents: EventDetails[] = [];
-  selectedEvent: EventDetails | null = null;
+  selectedEvent: EventDetails ={
+    id: 0,
+    name: '',
+    description: '',
+    eventTime: new Date(),
+    venue: '',
+    pricePerTicket: 0,
+    availableTickets: 0,
+    image: '',
+    isBooked: false
+  };
   newVerifier:RegistrationRequest={
     name: '',
     email: '',
@@ -44,6 +58,13 @@ newCategory:string='';
     availableTickets: 0,
     categoryId: 0
   };
+ updatedEvent: EventUpdateRequest={
+   eventId: 0,
+   description: '',
+   eventTime: new Date(),
+   name: '',
+   venue:''
+ }
   imagePreviewUrl: string | ArrayBuffer | null = null;
     currentPage = 0;
   totalPages = 0;
@@ -172,6 +193,36 @@ this.categories=data;
       });
     }
   }
+ updateEvent(event: any): void {
+  const updatedEvent = {
+    eventId: event.id,
+    description: event.description,
+    eventTime: event.eventTime,
+    venue:event.venue,
+    name:event.name
+  };
+
+  this.eventService.updateEvent(updatedEvent).subscribe({
+    next: () => {
+      console.log('Event updated successfully');
+          this.filteredEvents = this.filteredEvents.map(e => e.id === event.id ? { ...e, ...event } : e);
+    
+    },
+    error: (err) => {
+      console.error('Error updating event:', err);
+    }
+  });
+}
+
+  deleteEvent(event:EventDetails){
+
+    this.eventService.deleteEvent(event.id).subscribe((data)=>{
+  
+      this.Events=this.Events.filter(e=>e.id!==event.id)
+         this.filteredEvents = this.filteredEvents.filter(e => e.id !== event.id);
+     console.log('event deletd successfully',data); 
+    });
+  }
      openCreateEventModal(): void {
       this.fetchCategories();
     const modalElement = document.getElementById('createEventModal');
@@ -190,4 +241,15 @@ this.categories=data;
   const modal = new bootstrap.Modal(document.getElementById('createCategoryModal')!);
   modal.show();
 }
+
+
+
+  openEditModal(event:EventDetails): void {
+    this.selectedEvent = { ...event };
+    const modalElement = document.getElementById('editEventModal');
+    if (modalElement) {
+      const modalInstance = new bootstrap.Modal(modalElement);
+      modalInstance.show();
+    }
+  }
 }

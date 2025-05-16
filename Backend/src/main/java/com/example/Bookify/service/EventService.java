@@ -31,5 +31,7 @@ public interface EventService {
 
     List<CategoryResponse> getAllCategories();
 
+
+
     void updateEventImageUrl(int id, String imageUrl);
 }

@@ -77,7 +77,7 @@ public class EventController {
     @PreAuthorize("isAuthenticated()")
     public Page<EventDetailsResponse> getAllEventsPaged(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "2") int size,
+            @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "eventTime") String sortBy,
             @RequestParam(required = false) String categoryName
     ){

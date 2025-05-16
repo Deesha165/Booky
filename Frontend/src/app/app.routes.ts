@@ -6,6 +6,7 @@ import { CustomereventComponent } from './pages/user/home/customer-store.compone
 import { BookingStatusScreenComponent } from './pages/booking-status-screen/booking-status-screen.component';
 import { AdminEventsComponent } from './pages/admin/admin-events/admin-events.component';
 
+
 export const routes: Routes = [
     {
         path:'event/:id'

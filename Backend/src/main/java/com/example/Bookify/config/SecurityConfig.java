@@ -1,7 +1,9 @@
 package com.example.Bookify.config;
 import com.example.Bookify.exception.EntityNotFoundException;
 import com.example.Bookify.repository.UserRepository;
+import com.example.Bookify.security.JwtAuthenticationEntryPoint;
 import com.example.Bookify.security.JwtAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,6 +37,8 @@ public class SecurityConfig {
     {
         this.userRepository=userRepository;
     }
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     private static final String[] AUTH_WHITELIST = {
             "api/auth/**",
@@ -52,6 +56,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AUTH_WHITELIST).permitAll()
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authenticationProvider(authenticationProvider())

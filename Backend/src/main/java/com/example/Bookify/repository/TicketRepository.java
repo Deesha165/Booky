@@ -11,4 +11,6 @@ public interface TicketRepository extends JpaRepository<Ticket
             select exists(select 1 from Ticket t where t.ticketCode=:ticketCode) 
             """)
     Boolean checkTicketExistenceByTicketCode(String ticketCode);
+
+    void deleteByBookingId(int bookingId);
 }

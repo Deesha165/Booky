@@ -109,6 +109,11 @@ public class BookingServiceImpl implements BookingService {
         bookingRepository.deleteByEventId(eventId);
     }
 
+    @Override
+    public void deleteTicketsByBookingId(int bookingId) {
+        ticketRepository.deleteByBookingId(bookingId);
+    }
+
 
     private Ticket createTicket(Booking booking){
 

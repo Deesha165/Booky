@@ -45,11 +45,22 @@
                 <td class="fw-bold" >{{ event.name }}</td>
                 <td >{{ event.venue }}</td>
           <td>{{ event.eventTime | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-                <td>
-                  <button class="btn btn-sm btn-outline-primary" (click)="viewEventDetails(event)">
+            
+
+               <td>
+                <div class="action-buttons">
+                  <button class="btn btn-sm btn-outline-primary me-2" (click)="viewUserDetails(event)">
                     <i class="fas fa-eye"></i>
                   </button>
-                </td>
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteEvent(event)" >
+                    <i class="fas fa-trash"></i>
+                  </button>
+                    <button class="btn btn-sm btn-outline-warning me-2" (click)="openEditModal(event)">
+                  <i class="fas fa-edit"></i>
+                </button>
+                </div>
+              </td>
+
               </tr>
             </tbody>
           </table>
@@ -207,3 +218,46 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="editEventModal" tabindex="-1" aria-labelledby="editEventLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editEventLabel">Edit Event</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+     <div class="modal-body">
+  <form>
+    <div class="mb-3">
+      <label for="editEventName" class="form-label">Name</label>
+      <input type="text" class="form-control" id="editEventName" [(ngModel)]="selectedEvent.name" name="name" />
+    </div>
+
+    <div class="mb-3">
+      <label for="editEventVenue" class="form-label">Venue</label>
+      <input type="text" class="form-control" id="editEventVenue" [(ngModel)]="selectedEvent.venue" name="venue" />
+    </div>
+
+    <div class="mb-3">
+      <label for="editEventDescription" class="form-label">Description</label>
+      <textarea class="form-control" id="editEventDescription" [(ngModel)]="selectedEvent.description" name="description"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="editEventTime" class="form-label">Event Time</label>
+      <input type="datetime-local" class="form-control" id="editEventTime" [(ngModel)]="selectedEvent.eventTime" name="eventTime" />
+    </div>
+  </form>
+</div>
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="updateEvent(selectedEvent)" data-bs-dismiss="modal">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
