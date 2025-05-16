@@ -6,6 +6,7 @@ import com.example.Bookify.entity.booking.Ticket;
 import com.example.Bookify.entity.event.Event;
 import com.example.Bookify.entity.user.User;
 import com.example.Bookify.exception.IllegalActionException;
+import com.example.Bookify.mapper.EventMapper;
 import com.example.Bookify.repository.BookingRepository;
 import com.example.Bookify.repository.TicketRepository;
 import com.example.Bookify.service.EventService;
@@ -35,6 +36,7 @@ public class BookingServiceImplTest {
 
     private BookingServiceImpl bookingService;
     private AuthUtil authUtil;
+    private EventMapper eventMapper;
 
     @BeforeEach
     void setUp() {
@@ -45,8 +47,9 @@ public class BookingServiceImplTest {
         eventService = mock(EventService.class);
         notificationService = mock(NotificationService.class);
         authUtil=mock(AuthUtil.class);
+        eventMapper=mock(EventMapper.class);
 
-        bookingService = new BookingServiceImpl(bookingRepository, ticketRepository, userService, eventService, notificationService,authUtil);
+        bookingService = new BookingServiceImpl(bookingRepository, ticketRepository, userService, eventService, notificationService,authUtil,eventMapper);
     }
     @Test
     void bookEvent_WhenNoTicketsAvailable_ShouldThrowException(){

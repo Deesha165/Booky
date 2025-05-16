@@ -13,4 +13,6 @@ public interface TicketRepository extends JpaRepository<Ticket
     Boolean checkTicketExistenceByTicketCode(String ticketCode);
 
     void deleteByBookingId(int bookingId);
+
+    Ticket findByTicketCode(String ticketCode);
 }

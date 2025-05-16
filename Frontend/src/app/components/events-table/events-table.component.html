@@ -27,17 +27,17 @@
     <span class="badge bg-secondary px-3 py-2 fs-6">{{ filteredEvents.length }} Events</span>
 
     <button class="btn btn-outline-primary d-flex align-items-center gap-2" 
-            (click)="openCreateEventModal()" *ngIf="isAdmin()">
+            (click)="openCreateEventModal()">
       <i class="fas fa-plus"></i> <span>Create Event</span>
     </button>
 
     <button class="btn btn-outline-secondary d-flex align-items-center gap-2" 
-            (click)="openCreateVerifierModal()" *ngIf="isAdmin()">
+            (click)="openCreateVerifierModal()" >
       <i class="fas fa-user-shield"></i> <span>Create Verifier</span>
     </button>
 
     <button class="btn btn-outline-info d-flex align-items-center gap-2 text-dark" 
-            (click)="openCreateCategoryModal()" *ngIf="isAdmin()">
+            (click)="openCreateCategoryModal()">
       <i class="fas fa-folder-plus"></i> <span>Create Category</span>
     </button>
   </div>
@@ -53,7 +53,7 @@
                 <th>Name</th>
                 <th>Venue</th>
                 <th>Event Time</th>
-                <th *ngIf="isAdmin()">Actions</th>
+                <th >Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -66,7 +66,7 @@
           <td>{{ event.eventTime | date:'dd/MM/yyyy HH:mm:ss' }}</td>
             
 
-               <td *ngIf="isAdmin()">
+               <td >
                 <div class="action-buttons">
                 
                   <button class="btn btn-sm btn-outline-danger" (click)="deleteEvent(event)" >
@@ -276,5 +276,8 @@
     </div>
   </div>
 </div>
+
+
+
 
 

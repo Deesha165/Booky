@@ -1,4 +1,16 @@
 package com.example.Bookify.dto.event;
 
-public record EventReservationResponse() {
+import lombok.Builder;
+
+import java.time.LocalDateTime;
+
+@Builder
+public record EventVerificationResponse(
+        int id,
+        String name,
+        String venue,
+        LocalDateTime eventTime,
+        String userEmail
+
+) {
 }

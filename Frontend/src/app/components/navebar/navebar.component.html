@@ -1,25 +1,25 @@
 <header class="header py-3 bg-white shadow-sm sticky-top">
   <div class="container d-flex flex-wrap justify-content-between align-items-center">
-    <div class="d-flex align-items-center me-4">
-      <a href="#" class="brand-logo d-flex align-items-center text-decoration-none">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#0d6efd" class="bi bi-ticket-detailed me-2" viewBox="0 0 16 16">
-          <path d="M0 4.5A.5.5 0 0 1 .5 4H15.5a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 0 0 3v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1a1.5 1.5 0 0 0 0-3v-1zM1 5v.537a2.5 2.5 0 0 1 0 4.926V11h14V10.463a2.5 2.5 0 0 1 0-4.926V5H1zm2 1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm5-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/>
-        </svg>
-        <span class="fs-5 fw-bold text-primary">Bookify</span>
-      </a>
-    </div>
+  <div class="d-flex align-items-center me-4">
+  <a href="#" class="brand-logo d-flex align-items-center text-decoration-none" style="font-family: 'Comic Sans MS', cursive, sans-serif;">
+    <span style="font-size: 2.5rem; margin-right: 0.5rem;">🎫</span>
+    <span class="fs-5 fw-bold text-primary" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">Bookify</span>
+  </a>
+</div>
+
 
     <div class="flex-grow-1 mx-3" *ngIf="!hideSearch">
       <form class="position-relative" (ngSubmit)="onSearch(searchInput.value)">
         <input
-          #searchInput
-          type="text"
-          name="search"
-          class="form-control search-input ps-5"
-          placeholder="Search for stores..."
-          style="height: 48px;"
-          autocomplete="off"
-        />
+  #searchInput
+  type="text"
+  name="search"
+  class="form-control search-input ps-5"
+  [placeholder]="getSearchPlaceholder()"
+  style="height: 48px;"
+  autocomplete="off"
+/>
+
         <button type="submit" class="btn position-absolute top-50 start-0 translate-middle-y ps-3 border-0 bg-transparent">
           <i class="fas fa-search"></i>
         </button>
@@ -32,7 +32,7 @@
           <i class="fas fa-user"></i>
         </div>
         <div class="user-greeting">
-          <span *ngIf="isLoggedIn; else guestTemplate">Hello, {{ userName }}</span>
+          <span *ngIf="isLoggedIn; else guestTemplate">Hello, {{ this.userClaims.name }}</span>
           <ng-template #guestTemplate>
             <span>Hello, User</span>
           </ng-template>
@@ -43,7 +43,7 @@
       <div class="dropdown-menu" [class.show]="isDropdownOpen">
 
         
-        <a class="dropdown-item" (click)="loadTrending()">
+        <a class="dropdown-item" (click)="loadTrending()" *ngIf="!isVerifier()">
           <i class="fas fa-chart-line"></i>
           <span>Trending</span>
         </a>

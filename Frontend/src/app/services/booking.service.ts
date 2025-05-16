@@ -40,7 +40,15 @@ private apiUrl = `${environment.apiUrl}/api/booking`;
 
         verifyReservation(ticketCode:String):Observable<EventReservationDetailsVerification>{
           this.updateHeaders();
-          return this.httpClient.get<EventReservationDetailsVerification>(`${this.apiUrl}/verify`,{headers:this.headers})
+           console.log(this.headers);
+          return this.httpClient.get<EventReservationDetailsVerification>(`${this.apiUrl}/verify?ticketCode=${ticketCode}`,{headers:this.headers})
              .pipe(this.authErrorHandler.handleAuthError(()=>this.verifyReservation(ticketCode)));;   
+        }
+
+        consumeTicket(ticketCode:String):Observable<void>{
+            this.updateHeaders();
+            console.log(this.headers);
+              return this.httpClient.put<void>(`${this.apiUrl}/consume?ticketCode=${ticketCode}`,[],{headers:this.headers})
+             .pipe(this.authErrorHandler.handleAuthError(()=>this.consumeTicket(ticketCode)));;   
         }
 }

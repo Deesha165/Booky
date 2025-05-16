@@ -48,9 +48,12 @@ export class LoginComponent {
               console.log('inside');  
               this.route.navigate(['/home']);
             }
-            else {
+            else if(this.userClaims.userRole===UserRole.ADMIN){
 
                 this.route.navigate(['/events']);
+            }
+            else{
+                  this.route.navigate(['/verification']);
             }
             
 

@@ -27,6 +27,7 @@ import { TokenService } from '../../services/token.service';
 export class EventsTableComponent {
 
 
+
   searchQuery: string = '';
 
    Events: EventDetails[] = [];
@@ -50,6 +51,7 @@ categories:CategoryDetails[]=[];
     email: '',
     password: ''
   };
+  ticketCode:string='';
 newCategory:string='';
   newEvent: EventCreationRequest = {
     name: '',
@@ -81,7 +83,8 @@ newCategory:string='';
     private eventService: EventService,
    private imageService:ImageService,  
     private userService:UserService,
-    private tokenService:TokenService
+    private tokenService:TokenService,
+    private router:Router
   ) {}
 
   ngOnInit(): void {
@@ -240,6 +243,10 @@ this.categories=data;
      console.log('event deletd successfully',data); 
     });
   }
+  verifyTicket() {
+ this.router.navigate(['/verify',this.ticketCode])
+}
+
      openCreateEventModal(): void {
       this.fetchCategories();
     const modalElement = document.getElementById('createEventModal');

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { CustomerNavebareComponent } from '../../../components/customer-navebare/customer-navebare.component';
+import { CustomerNavebareComponent } from '../../../components/navebar/navebar.component';
 import { EventService } from '../../../services/event.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventDetails } from '../../../models/event/event-details.model';
@@ -12,10 +12,10 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
   selector: 'app-customer-event',
   standalone: true,
   imports: [CommonModule, CustomerNavebareComponent, CardeventComponent,InfiniteScrollModule],
-  templateUrl: './customer-store.component.html',
-  styleUrls: ['./customer-store.component.css']
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class CustomereventComponent implements OnInit {
+export class HomeComponent implements OnInit {
   events: EventDetails[] = [];
   filteredEvents: EventDetails[] = [];
   error: string | null = null;

@@ -5,6 +5,8 @@ import com.example.Bookify.repository.projection.EventReservationDetailsForVerif
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 public interface BookingRepository extends JpaRepository<Booking,Integer> {
 
     @Query("""
@@ -18,9 +20,9 @@ public interface BookingRepository extends JpaRepository<Booking,Integer> {
             join t.booking b 
             join b.event e 
             join b.user u 
-            where t.ticketCode=:ticketCode
+            where t.ticketCode=:ticketCode  and e.eventTime >= CURRENT_TIMESTAMP
             """)
-    EventReservationDetailsForVerification findReservationDetailsByTicketCode(String ticketCode);
+    Optional<EventReservationDetailsForVerification> findReservationDetailsByTicketCode(String ticketCode);
 
     void deleteByEventId(int eventId);
 }

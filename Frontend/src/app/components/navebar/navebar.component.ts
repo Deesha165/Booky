@@ -4,20 +4,25 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { TokenService } from '../../services/token.service';
+import { UserClaims } from '../../models/user/user-claims.model';
+import { UserRole } from '../../enums/user-role.model';
 
 @Component({
-  selector: 'app-customer-navebare',
+  selector: 'app-navbar',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './customer-navebare.component.html',
-  styleUrls: ['./customer-navebare.component.css']
+  templateUrl: './navebar.component.html',
+  styleUrls: ['./navebar.component.css']
 })
 export class CustomerNavebareComponent implements OnInit {
 
   @Output() searchTextChanged = new EventEmitter<string>();
 
   @Output() trendingState=new EventEmitter<boolean>();
-  userName: string | null = null;
+  userClaims:UserClaims={
+    userRole: UserRole.ADMIN,
+    name: ''
+  }
   isLoggedIn: boolean = false;
   @Input() hideSearch: boolean = false;
   isDropdownOpen: boolean = false;
@@ -33,7 +38,7 @@ export class CustomerNavebareComponent implements OnInit {
   checkLoginStatus(): void {
    
     this.tokenService.getUserClaims().subscribe((claims)=>{
-      this.userName=claims.name;
+      this.userClaims=claims;
       this.isLoggedIn=true;
     })
   }
@@ -41,7 +46,15 @@ export class CustomerNavebareComponent implements OnInit {
   toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
-
+getSearchPlaceholder(){
+  if(this.userClaims.userRole===UserRole.USER){
+   return 'Search for Events...'
+  }
+  else if(this.userClaims.userRole===UserRole.VERIFIER){
+          return 'Search for Tickets...'
+  }
+  return 'Search...'
+}
   loadTrending(){
     this.trendingState.emit(true);
     this.isDropdownOpen = false;
@@ -82,6 +95,9 @@ export class CustomerNavebareComponent implements OnInit {
   }
 
 
+   isVerifier():boolean{
+     return this.userClaims.userRole===UserRole.VERIFIER;
+  }
 
 
 }

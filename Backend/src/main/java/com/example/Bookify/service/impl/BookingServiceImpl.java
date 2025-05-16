@@ -2,11 +2,13 @@ package com.example.Bookify.service.impl;
 
 import com.example.Bookify.dto.booking.BookingRequest;
 import com.example.Bookify.dto.event.EventReservationDetails;
+import com.example.Bookify.dto.event.EventVerificationResponse;
 import com.example.Bookify.entity.booking.Booking;
 import com.example.Bookify.entity.booking.Ticket;
 import com.example.Bookify.entity.event.Event;
 import com.example.Bookify.entity.user.User;
 import com.example.Bookify.exception.IllegalActionException;
+import com.example.Bookify.mapper.EventMapper;
 import com.example.Bookify.repository.BookingRepository;
 import com.example.Bookify.repository.TicketRepository;
 import com.example.Bookify.repository.projection.EventReservationDetailsForVerification;
@@ -15,6 +17,7 @@ import com.example.Bookify.service.EventService;
 import com.example.Bookify.service.NotificationService;
 import com.example.Bookify.service.UserService;
 import com.example.Bookify.util.AuthUtil;
+import org.apache.coyote.BadRequestException;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Isolation;
@@ -24,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -35,20 +40,21 @@ public class BookingServiceImpl implements BookingService {
     private final EventService eventService;
     private final NotificationService notificationService;
     private final AuthUtil authUtil;
-
+private final EventMapper eventMapper;
     public BookingServiceImpl(
             BookingRepository bookingRepository,
             TicketRepository ticketRepository,
             UserService userService,
-           @Lazy EventService eventService,
+            @Lazy EventService eventService,
             NotificationService notificationService,
-            AuthUtil authUtil) {
+            AuthUtil authUtil, EventMapper eventMapper) {
         this.bookingRepository = bookingRepository;
         this.ticketRepository = ticketRepository;
         this.userService = userService;
         this.eventService = eventService;
         this.notificationService = notificationService;
         this.authUtil = authUtil;
+        this.eventMapper = eventMapper;
     }
     @Override
     @Transactional(isolation=Isolation.SERIALIZABLE)
@@ -99,9 +105,16 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public EventReservationDetailsForVerification verifyReservation(String ticketCode) {
+    public EventVerificationResponse verifyReservation(String ticketCode) throws BadRequestException {
 
-        return bookingRepository.findReservationDetailsByTicketCode(ticketCode);
+        Optional<EventReservationDetailsForVerification> eventReservationDetailsForVerification=
+                bookingRepository.findReservationDetailsByTicketCode(ticketCode);
+
+        if(eventReservationDetailsForVerification.isEmpty()||
+                eventReservationDetailsForVerification.get().getUserEmail()==null)
+            throw new BadRequestException("Ticket Code is not valid");
+
+        return eventMapper.toEventVerificationResponse(eventReservationDetailsForVerification.get());
     }
 
     @Override
@@ -112,6 +125,19 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public void deleteTicketsByBookingId(int bookingId) {
         ticketRepository.deleteByBookingId(bookingId);
+    }
+
+    @Override
+    @Transactional
+    public void consumeTicket(String ticketCode) {
+        Ticket ticket=ticketRepository.findByTicketCode(ticketCode);
+        ticket.setIsUsed(true);
+        ticket.setUsedAt(LocalDateTime.now());
+        User verifier =authUtil.getAuthenticatedUser();
+
+        ticket.setVerifiedBy(verifier);
+        ticketRepository.save(ticket);
+
     }
 
 
