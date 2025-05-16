@@ -74,7 +74,7 @@ public class EventController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('USER')")
+    @PreAuthorize("isAuthenticated()")
     public Page<EventDetailsResponse> getAllEventsPaged(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "2") int size,

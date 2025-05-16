@@ -19,6 +19,7 @@ import com.example.Bookify.repository.EventTagRepository;
 import com.example.Bookify.repository.TagRepository;
 import com.example.Bookify.repository.projection.EventWithBookingStatus;
 import com.example.Bookify.repository.EventRepository;
+import com.example.Bookify.service.BookingService;
 import com.example.Bookify.service.EventService;
 import com.example.Bookify.service.UserService;
 import com.example.Bookify.util.AuthUtil;
@@ -47,6 +48,7 @@ public class EventServiceImpl implements EventService {
     private  final EventTagRepository eventTagRepository;
     private final EventMapper eventMapper;
     private final UserService userService;
+    private final BookingService bookingService;
 
     private volatile Set<EventDetailsResponse> trendingCachedEvents=new HashSet<>();
 
@@ -111,6 +113,10 @@ public class EventServiceImpl implements EventService {
     public int deleteEvent(int eventId) {
 
         Event event=getEventEntityById(eventId);
+
+        bookingService.deleteBookingsByEventId(eventId);
+        eventTagRepository.deleteByEventId(eventId);
+
         eventRepository.delete(event);
         return eventId;
     }

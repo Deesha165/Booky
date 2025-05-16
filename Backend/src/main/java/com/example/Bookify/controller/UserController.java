@@ -8,6 +8,7 @@ import com.example.Bookify.service.AuthenticationService;
 import com.example.Bookify.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,6 +45,14 @@ public class UserController {
             (@Valid @RequestBody RegisterRequest request)
     {
        return authenticationService.register(request, UserRole.VERIFIER);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
+    public Page<UserDetailsResponse> getAllUsers(@RequestParam(defaultValue = "0") int page,
+                                                 @RequestParam(defaultValue = "10") int size){
+        return userService.getAllUsersPaged(page,size);
     }
 
 }

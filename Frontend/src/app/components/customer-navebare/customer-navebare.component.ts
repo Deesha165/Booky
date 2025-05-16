@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-customer-navebare',
@@ -14,38 +15,22 @@ export class CustomerNavebareComponent implements OnInit {
   @Output() searchTextChanged = new EventEmitter<string>();
   userName: string | null = null;
   isLoggedIn: boolean = false;
-  userId: number = 0;
   @Input() hideSearch: boolean = false;
   
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private tokenService:TokenService,private authService:AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.checkLoginStatus();
   }
 
   checkLoginStatus(): void {
-   /* this.isLoggedIn = this.authService.isLoggedIn();
-    if (this.isLoggedIn) {
-      this.loadUserData();
-    }*/
+   
+    this.tokenService.getUserClaims().subscribe((claims)=>{
+      this.userName=claims.name;
+      this.isLoggedIn=true;
+    })
   }
 
-  loadUserData(): void {
-    /*this.authService.getLoggedInUser().subscribe({
-      next: (user) => {
-        this.userFirstName = user?.fir?.toString() ?? 'User';
-        this.userId = Number(user?.id) ?? 0;
-      },
-      error: (err) => {
-        console.error("Failed to load user:", err);
-        // Handle error appropriately
-      }
-    });*/
-  }
-
-  onStoreClick(): void {
-    this.router.navigate(['/customer/stores']);
-  }
 
   onSignOut(): void {
     this.authService.logout();

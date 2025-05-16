@@ -15,6 +15,7 @@ import com.example.Bookify.service.EventService;
 import com.example.Bookify.service.NotificationService;
 import com.example.Bookify.service.UserService;
 import com.example.Bookify.util.AuthUtil;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,6 @@ import java.util.Random;
 
 @Service
 @Slf4j
-@AllArgsConstructor
 public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final TicketRepository ticketRepository;
@@ -36,7 +36,20 @@ public class BookingServiceImpl implements BookingService {
     private final NotificationService notificationService;
     private final AuthUtil authUtil;
 
-
+    public BookingServiceImpl(
+            BookingRepository bookingRepository,
+            TicketRepository ticketRepository,
+            UserService userService,
+           @Lazy EventService eventService,
+            NotificationService notificationService,
+            AuthUtil authUtil) {
+        this.bookingRepository = bookingRepository;
+        this.ticketRepository = ticketRepository;
+        this.userService = userService;
+        this.eventService = eventService;
+        this.notificationService = notificationService;
+        this.authUtil = authUtil;
+    }
     @Override
     @Transactional(isolation=Isolation.SERIALIZABLE)
     public int bookEvent(int eventId) {
@@ -89,6 +102,11 @@ public class BookingServiceImpl implements BookingService {
     public EventReservationDetailsForVerification verifyReservation(String ticketCode) {
 
         return bookingRepository.findReservationDetailsByTicketCode(ticketCode);
+    }
+
+    @Override
+    public void deleteBookingsByEventId(int eventId) {
+        bookingRepository.deleteByEventId(eventId);
     }
 
 

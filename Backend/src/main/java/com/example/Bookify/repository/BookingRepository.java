@@ -21,4 +21,6 @@ public interface BookingRepository extends JpaRepository<Booking,Integer> {
             where t.ticketCode=:ticketCode
             """)
     EventReservationDetailsForVerification findReservationDetailsByTicketCode(String ticketCode);
+
+    void deleteByEventId(int eventId);
 }

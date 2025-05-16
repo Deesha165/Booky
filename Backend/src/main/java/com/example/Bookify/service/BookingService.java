@@ -8,4 +8,7 @@ public interface BookingService {
     int bookEvent(int eventId);
 
     EventReservationDetailsForVerification verifyReservation(String ticketCode);
+
+    void deleteBookingsByEventId(int eventId);
+
 }

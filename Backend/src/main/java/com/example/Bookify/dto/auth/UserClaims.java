@@ -1,4 +1,11 @@
 package com.example.Bookify.dto.auth;
 
-public record UserClaims() {
+import com.example.Bookify.enums.UserRole;
+import lombok.Builder;
+
+@Builder
+public record UserClaims(
+        UserRole userRole,
+        String name
+) {
 }
