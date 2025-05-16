@@ -14,11 +14,12 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router, private tokenService: TokenService) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-    const requiredRole = route.data['role'] ;
+  
+      const expectedRoles: UserRole[] = route.data['roles'];
 
     return this.tokenService.getUserClaims().pipe(
       map((claims: UserClaims) => {
-        if (claims.userRole === requiredRole) {
+        if (expectedRoles.some(role=>role===claims.userRole)) {
           return true;
 
         } else {

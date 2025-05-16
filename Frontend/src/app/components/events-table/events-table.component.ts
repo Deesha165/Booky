@@ -14,6 +14,9 @@ import { RegistrationRequest } from '../../dtos/auth/RegisterationRequest.dto';
 import { UserService } from '../../services/user.service';
 import { ImageService } from '../../services/image.servicec';
 import { EventUpdateRequest } from '../../dtos/event/event-update-request.dto';
+import { UserClaims } from '../../models/user/user-claims.model';
+import { UserRole } from '../../enums/user-role.model';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-events-table',
@@ -22,9 +25,8 @@ import { EventUpdateRequest } from '../../dtos/event/event-update-request.dto';
   styleUrls: ['./events-table.component.css']
 })
 export class EventsTableComponent {
-viewUserDetails(arg0: any) {
-throw new Error('Method not implemented.');
-}
+
+
   searchQuery: string = '';
 
    Events: EventDetails[] = [];
@@ -70,16 +72,21 @@ newCategory:string='';
   totalPages = 0;
   pageSize = 15;
 
+  eventCounts=0;
+  userClaims:UserClaims={
+    userRole: UserRole.ADMIN,
+    name: ''
+  }
   constructor(
     private eventService: EventService,
    private imageService:ImageService,  
     private userService:UserService,
-    private router: Router
+    private tokenService:TokenService
   ) {}
 
   ngOnInit(): void {
     this.fetchEvents();
-
+   this.fetchUserClaims();
   }
 
   onScroll = () => {
@@ -112,6 +119,16 @@ onFileSelected(event: Event): void {
         console.error('Error fetching Events:', err);
       }
     });
+  }
+  fetchUserClaims(){
+    this.tokenService.getUserClaims().subscribe({
+      next:(dataa)=>{
+            this.userClaims=dataa;
+      },
+      error:(error)=>{
+        console.log('error fetching user claims');
+      }
+    })
   }
 
   fetchCategories():void{
@@ -251,5 +268,8 @@ this.categories=data;
       const modalInstance = new bootstrap.Modal(modalElement);
       modalInstance.show();
     }
+  }
+  isAdmin():boolean{
+     return this.userClaims.userRole===UserRole.ADMIN;
   }
 }
