@@ -8,6 +8,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { UserRole } from './enums/user-role.model';
 import { EventsComponent } from './pages/events/events.component';
 import { VerificationComponent } from './pages/verification/verification.component';
+import { SettingsComponent } from './pages/auth/settings/settings.component';
 
 
 export const routes: Routes = [
@@ -28,6 +29,11 @@ data:{roles:[UserRole.USER]}
     component:VerificationComponent,
     canActivate:[AuthGuard],
     data:{roles:[UserRole.VERIFIER]}
+},
+{
+    path:'settings',
+    component:SettingsComponent,
+    canActivate:[AuthGuard]
 }
     ,
     {

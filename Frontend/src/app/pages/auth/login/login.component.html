@@ -1,4 +1,3 @@
-
 <section class="bg-light p-3 p-md-4 p-xl-5">
     <div class="container">
     <div class="row justify-content-center">
@@ -6,7 +5,7 @@
           <div class="card border-light-subtle shadow-sm">
             <div class="row g-0">
               <div class="col-12 col-md-6">
-                <img class="img-fluid rounded-start w-100 h-100 object-fit-cover" loading="lazy" src="assets/Event-Booking.webp" alt="Welcome back you've been missed!">
+                <img class="img-fluid rounded-start w-100 h-100 object-fit-cover" loading="lazy" src="assets/Event-Booking.webp" [alt]="'Welcome back you\'ve been missed!' | translate">
               </div>
               <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
                 <div class="col-12 col-lg-11 col-xl-10">
@@ -15,27 +14,25 @@
                 <div class="col-12">
                         <div class="mb-5">
                           <div class="text-center mb-4">
-                            <h2 class="text-center" style="font-size: 40px;">Welcome To Our Booking Service</h2>
+                            <h2 class="text-center" style="font-size: 40px;">{{ 'Welcome To Our Booking Service' | translate }}</h2>
                   </div>
                       <h2 class="text-center" style="font-size: 20px; color: rgb(36, 29, 20); font-style: italic;">
-                                                          Sign in to explore trending events, bookings and more
+                          {{ 'Sign in to explore trending events, bookings and more' | translate }}
                           </h2>
                         </div>
                       </div>
                     </div>
 
-               
                     <form (ngSubmit)="onSubmit()" class="auth-form">
-                 
                       <div class="form-group">
                         <div class="input-group">
                           <i class="fas fa-envelope"></i>
                           <input 
                             type="email" 
                             name="email" 
-                            placeholder="Enter your email"
+                            [placeholder]="'Enter your email' | translate"
                             [(ngModel)]="authRequest.email" 
-                    required>
+                            required>
                         </div>
                       </div>
 
@@ -45,37 +42,32 @@
                           <input 
                             type="password" 
                             name="password" 
-                            placeholder="Enter your password"
+                            [placeholder]="'Enter your password' | translate"
                             [(ngModel)]="authRequest.password" 
                             required>
                         </div>
                         <div *ngIf="fieldErrors?.['password']" class="error-message">
                           <i class="fas fa-exclamation-circle"></i>
-                          {{ fieldErrors['password'] }}
+                          {{ fieldErrors['password'] | translate }}
                         </div>
                       </div>
 
-          
                       <button type="submit" class="submit-btn">
                         <i class="fas fa-sign-in-alt"></i>
-                        Sign In
+                        {{ 'Sign In' | translate }}
                       </button>
                     </form>
 
-               
                     <div class="row">
                       <div class="col-12">
                         <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-5">
                           <a (click)="goToSignUp()" class="link-secondary text-decoration-none" style="cursor: pointer;">
-                            <i class="fas fa-user-plus"></i> Create Account
+                            <i class="fas fa-user-plus"></i> {{ 'Create Account' | translate }}
                           </a>
-                         
                         </div>
-
-
                       </div>
-                        </div>
-            </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

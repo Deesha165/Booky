@@ -1,19 +1,18 @@
-<app-navbar (searchTextChanged)="handleSearch($event)"  (trendingState)="handleTrending($event)"></app-navbar>
+<app-navbar (searchTextChanged)="handleSearch($event)" (trendingState)="handleTrending($event)"></app-navbar>
 
 <div class="container mt-4">
   <div class="text-center py-4 bg-light rounded shadow-sm">
-    <h2 class="fw-bold mb-2 text-primary">Welcome to Bookify!</h2>
-    <p class="text-muted mb-0">Discover trending event, amazing offers, and manage your reservations easily.</p>
+    <h2 class="fw-bold mb-2 text-primary">{{ 'Welcome to Bookify!' | translate }}</h2>
+    <p class="text-muted mb-0">{{ 'Discover trending events, amazing offers, and manage your reservations easily.' | translate }}</p>
   </div>
 </div>
 
-<div 
-  class="profile-container"
-  infiniteScroll
-  [infiniteScrollDistance]="2"
-  [infiniteScrollThrottle]="500"
-  (scrolled)="onScroll()"
-  [scrollWindow]="true">
+<div class="profile-container"
+     infiniteScroll
+     [infiniteScrollDistance]="2"
+     [infiniteScrollThrottle]="500"
+     (scrolled)="onScroll()"
+     [scrollWindow]="true">
   
 <div class="container mt-4">    
   <div class="store-grid">

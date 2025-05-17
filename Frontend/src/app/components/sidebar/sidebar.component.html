@@ -1,24 +1,25 @@
- <div class="sidebar">
-            <div class="sidebar-header">
-            
-                <h3>Dashboard</h3>
-            </div>
-            <nav class="sidebar-nav">
-                <a routerLink="/events" routerLinkActive="active" class="nav-item">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
-                </a>
-               
-        
-                <a routerLink="/admin-dashboard/settings" routerLinkActive="active" class="nav-item">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
-                </a>
-            </nav>
-            <div class="sidebar-footer">
-                <button class="logout-btn" (click)="logout()">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </button>
-            </div>
-        </div>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <h3>{{'Admin Dashboard'|translate}}</h3>
+  </div>
+  <nav class="sidebar-nav">
+
+
+
+    <a (click)="goToEvents()" class="nav-item">
+      <i class="fas fa-exchange-alt"></i>
+      <span>{{'event'|translate}}</span>
+    </a>
+
+    <a (click)="goToSeetings()" class="nav-item">
+      <i class="fas fa-cog"></i>
+      <span>{{'setting'|translate}}</span>
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <button (click)="logout()" class="nav-item">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>{{'logout'|translate}}</span>
+    </button>
+  </div>
+</div>

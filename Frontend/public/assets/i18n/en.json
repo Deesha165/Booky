@@ -1,3 +1,6 @@
 {
-  "title": "Congratulations! Your app is running with i18n enabled."
+  "title": "Bookify",
+  "hello":"hello",
+  "header1":"Welcome to Bookify!",
+  "header2":"Discover trending event, amazing offers, and manage your reservations easily."
 }

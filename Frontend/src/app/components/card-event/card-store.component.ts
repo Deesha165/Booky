@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BookingService } from '../../services/booking.service';
 import { environment } from '../../../environment/environment';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-card-event',
   standalone: true,
-  imports: [RouterModule, FormsModule, CommonModule],
+  imports: [RouterModule, FormsModule, CommonModule,TranslateModule],
   templateUrl: './card-store.component.html',
   styleUrl: './card-store.component.css'
 })

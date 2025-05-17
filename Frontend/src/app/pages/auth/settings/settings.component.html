@@ -1,1 +1,21 @@
-<p>settings works!</p>
+<div class="language-selector-container">
+  <h4 class="setting-title">{{ 'language' | translate }}</h4>
+  <div class="form-group">
+    <select 
+      class="form-select language-dropdown"
+      [(ngModel)]="selectedLanguage" 
+      (change)="onLanguageChange()"
+
+    >
+      <option value="en">
+        <span class="flag-icon flag-icon-us"></span> {{ 'English' | translate }}
+      </option>
+      <option value="ar">
+        <span class="flag-icon flag-icon-sa"></span> {{ 'Arabic' | translate }}
+      </option>
+    </select>
+  </div>
+  <p class="language-hint text-muted">
+    {{ 'language_change_hint' | translate }}
+  </p>
+</div>

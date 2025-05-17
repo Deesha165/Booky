@@ -5,10 +5,11 @@ import { EventReservationDetailsVerification } from '../../models/booking/event-
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CustomerNavebareComponent } from '../../components/navebar/navebar.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-verification',
-  imports:[CommonModule,FormsModule,CustomerNavebareComponent],
+  imports:[CommonModule,FormsModule,CustomerNavebareComponent,TranslateModule],
   templateUrl: './verification.component.html',
   styleUrl: './verification.component.css'
 })

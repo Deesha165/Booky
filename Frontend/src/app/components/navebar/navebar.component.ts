@@ -6,11 +6,12 @@ import { AuthService } from '../../services/auth.service';
 import { TokenService } from '../../services/token.service';
 import { UserClaims } from '../../models/user/user-claims.model';
 import { UserRole } from '../../enums/user-role.model';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule,TranslateModule],
   templateUrl: './navebar.component.html',
   styleUrls: ['./navebar.component.css']
 })
@@ -27,10 +28,12 @@ export class CustomerNavebareComponent implements OnInit {
   @Input() hideSearch: boolean = false;
   isDropdownOpen: boolean = false;
   
-  constructor(private tokenService:TokenService,private authService:AuthService, private router: Router) {}
+  constructor(private tokenService:TokenService,private authService:AuthService, 
+    private router: Router,private translateService:TranslateService) {}
 
   ngOnInit(): void {
     this.checkLoginStatus();
+     
   }
 
 
@@ -98,6 +101,7 @@ getSearchPlaceholder(){
    isVerifier():boolean{
      return this.userClaims.userRole===UserRole.VERIFIER;
   }
+
 
 
 }

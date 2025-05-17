@@ -1,0 +1,39 @@
+.language-selector-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.setting-title {
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.language-dropdown {
+  padding: 10px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.language-dropdown:hover {
+  border-color: #3498db;
+}
+
+.language-dropdown:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 0.25rem rgba(52,152,219,.25);
+}
+
+.language-hint {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.flag-icon {
+  margin-right: 8px;
+}

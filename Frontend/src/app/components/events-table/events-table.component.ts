@@ -17,10 +17,11 @@ import { EventUpdateRequest } from '../../dtos/event/event-update-request.dto';
 import { UserClaims } from '../../models/user/user-claims.model';
 import { UserRole } from '../../enums/user-role.model';
 import { TokenService } from '../../services/token.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-events-table',
-  imports:[CommonModule,FormsModule,InfiniteScrollModule],
+  imports:[CommonModule,FormsModule,InfiniteScrollModule,TranslateModule],
   templateUrl: './events-table.component.html',
   styleUrls: ['./events-table.component.css']
 })

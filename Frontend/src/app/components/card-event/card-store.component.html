@@ -3,47 +3,50 @@
     <div class="single-card card-style-1 border shadow-sm rounded transition">
 
       <span *ngIf="event.isBooked" class="badge bg-success position-absolute top-0 end-0 m-2 z-1"
-        title="You already booked this event" style="font-size: 0.8rem; padding: 0.4em 0.6em;">
-        <i class="bi bi-check-circle-fill"></i> Booked
+        [title]="'You already booked this event' | translate" style="font-size: 0.8rem; padding: 0.4em 0.6em;">
+        <i class="bi bi-check-circle-fill"></i> {{ 'booked' | translate }}
       </span>
-      
 
       <div class="card-image text-center">
-        <img [src]="this.serverUrl+event.image" alt="{{ event.name }}" class="img-fluid rounded-top hover-shadow" width="100px" height="100px" />
+        <img [src]="this.serverUrl+event.image" [alt]="event.name" class="img-fluid rounded-top hover-shadow" width="100px" height="100px" />
       </div>
 
       <div class="card-content text-center p-3">
         <h4 class="text-dark fw-bold mb-2">{{ event.name }}</h4>
         <p class="text-muted mb-1">
-          <strong><i class="bi bi-calendar-event"></i> Date & Time:</strong>
+          <strong><i class="bi bi-calendar-event"></i> {{ 'date_time' | translate }}:</strong>
           {{ event.eventTime | date: 'medium' }}
         </p>
         <p class="text-muted mb-1">
-          <strong><i class="bi bi-geo-alt"></i> Venue:</strong> {{ event.venue }}
+          <strong><i class="bi bi-geo-alt"></i> {{ 'venue' | translate }}:</strong> {{ event.venue }}
         </p>
         <p class="text-muted mb-1"><i class="bi bi-card-text"></i> {{ event.description }}</p>
         <p class="text-muted mb-1">
-          <strong><i class="bi bi-cash-coin"></i> Price:</strong> EGP {{ event.pricePerTicket }}
+          <strong><i class="bi bi-cash-coin"></i> {{ 'price' | translate }}:</strong> EGP {{ event.pricePerTicket }}
         </p>
         <p class="text-muted mb-3">
-          <strong><i class="bi bi-ticket-perforated"></i> Available Tickets:</strong>
+          <strong><i class="bi bi-ticket-perforated"></i> {{ 'available_tickets' | translate }}:</strong>
           {{ event.availableTickets }}
         </p>
 
         <div class="d-flex justify-content-center align-items-center gap-2 flex-wrap">
           <a *ngIf="event.isBooked && event.availableTickets > 0" [routerLink]="['/event', event.id]"
-            class="btn btn-success px-4" title="Go to event page">
-            <i class="bi bi-eye"></i> Visit Now
+            class="btn btn-success px-4" [title]="'Go to event page' | translate">
+            <i class="bi bi-eye"></i> {{ 'visit_now' | translate }}
           </a>
 
           <button *ngIf="!event.isBooked && event.availableTickets > 0" type="button"
-            class="btn btn-primary px-4" (click)="openBookingModal(event)" title="Book your ticket now">
-            <i class="bi bi-cart-plus"></i> Book Now
+
+            class="btn btn-primary px-4" (click)="openBookingModal(event)" [title]="'Book your ticket now' | translate">
+            <i class="bi bi-cart-plus"></i> {{ 'book_now' | translate }}
           </button>
 
+
+          
+
           <button *ngIf="event.availableTickets === 0" type="button" class="btn btn-dark px-4" disabled
-            title="No tickets left">
-            <i class="bi bi-x-circle"></i> Sold Out
+            [title]="'No tickets left' | translate">
+            <i class="bi bi-x-circle"></i> {{ 'sold_out' | translate }}
           </button>
         </div>
       </div>
@@ -55,18 +58,17 @@
   <div class="modal-dialog modal-dialog-centered modal-sm" style="margin: auto;">
     <div class="modal-content bg-white text-dark rounded shadow">
       <div class="modal-header border-bottom">
-        <h5 class="modal-title">Confirm Booking</h5>
+        <h5 class="modal-title">{{ 'confirm_booking' | translate }}</h5>
         <button type="button" class="btn-close" (click)="closeModal()"></button>
       </div>
 
       <div class="modal-body text-center">
-        <p>Are you sure you want to book <strong>{{ selectedEvent?.name }}</strong>?</p>
-        
+        <p>{{ 'booking_question' | translate: { name: selectedEvent?.name } }}</p>
       </div>
 
       <div class="modal-footer d-flex justify-content-between border-top">
-        <button type="button" class="btn btn-secondary w-45" (click)="closeModal()">No</button>
-        <button type="button" class="btn btn-primary w-45" (click)="confirmBooking()">Yes</button>
+        <button type="button" class="btn btn-secondary w-45" (click)="closeModal()">{{ 'no' | translate }}</button>
+        <button type="button" class="btn btn-primary w-45" (click)="confirmBooking()">{{ 'yes' | translate }}</button>
       </div>
     </div>
   </div>

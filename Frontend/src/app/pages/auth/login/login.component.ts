@@ -9,10 +9,11 @@ import { TokenService } from '../../../services/token.service';
 import { UserClaims } from '../../../models/user/user-claims.model';
 import { UserRole } from '../../../enums/user-role.model';
 import { RouterTestingHarness } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,TranslateModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

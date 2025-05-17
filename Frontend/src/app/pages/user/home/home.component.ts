@@ -7,11 +7,12 @@ import { EventDetails } from '../../../models/event/event-details.model';
 import { Page } from '../../../models/page.model';
 import { CardeventComponent } from "../../../components/card-event/card-store.component";
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-customer-event',
   standalone: true,
-  imports: [CommonModule, CustomerNavebareComponent, CardeventComponent,InfiniteScrollModule],
+  imports: [CommonModule, CustomerNavebareComponent, CardeventComponent,InfiniteScrollModule,TranslateModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

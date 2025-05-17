@@ -2,15 +2,13 @@
             'alert-success': bookingSuccess,
             'alert-danger': !bookingSuccess
           }" style="text-align: center;height: 100px; font-size: 20px;">
-
-    {{ bookingMessage }}
+    {{ bookingMessage | translate }}
 </div>
-               <div
- *ngIf="bookingMessage" class="text-center">
+<div *ngIf="bookingMessage" class="text-center">
   <button 
     class="btn btn-warning mt-3"
     [routerLink]="['/home']"  
     style="width: 200px;">
-    Return to Events
+    {{ 'Return to Events' | translate }}
   </button>
 </div>

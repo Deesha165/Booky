@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-booking-status-screen',
   templateUrl: './booking-status-screen.component.html',
-  imports:[FormsModule,CommonModule,RouterLink],
+  imports:[FormsModule,CommonModule,RouterLink,TranslateModule],
   styleUrls: ['./booking-status-screen.component.css']
 })
 export class BookingStatusScreenComponent implements OnInit {

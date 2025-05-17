@@ -1,22 +1,20 @@
 <div class="dashboard-layout">
-  <app-sidebar></app-sidebar>
+ <app-sidebar></app-sidebar>
   <div class="main-content">
     <div class="admin-dashboard">
       <div class="dashboard-header">
         <div class="header-content">
-          <h1> Dashboard</h1>
-          <p class="text-muted">Manage events</p>
+          <h1>{{ 'Admin Dashboard' | translate }}</h1>
+          <p class="text-muted">{{ 'Manage events' | translate }}</p>
         </div>
       </div>
 
       <div class="users-table-section">
         <div class="section-header">
-          <h2>Event Management</h2>
+          <h2>{{ 'Event Management' | translate }}</h2>
         </div>
 
-        <app-events-table ></app-events-table>
-
-    
+        <app-events-table></app-events-table>
       </div>
     </div>
   </div>
