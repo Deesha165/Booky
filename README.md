@@ -24,6 +24,8 @@ A full-stack event booking platform that supports user registration, event brows
    This command will build and start the backend, frontend, and database services.
 
 ---
+[![Video Title](https://img.youtube.com/vi/SYyeJgRqM0o/0.jpg)](https://www.youtube.com/watch?v=SYyeJgRqM0o)
+
 
 ## 🧰 Tech Stack
 
