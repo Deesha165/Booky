@@ -89,7 +89,14 @@
   "Password": "كلمة المرور",
   "Category Name": "اسم الفئة",
   "Edit Event": "تعديل الحدث",
-  "Save Changes": "حفظ التغييرات"
+  "Save Changes": "حفظ التغييرات",
+    "language_change_hint": "You can change the language of the application here.",
+  "change_password": "تعديل كلمة المرور",
+  "current_password": "Current Password",
+  "new_password": "New Password",
+  "enter_current_password": "Enter your current password",
+  "enter_new_password": "Enter your new password",
+  "update_password": "Update Password"
 
 
 }

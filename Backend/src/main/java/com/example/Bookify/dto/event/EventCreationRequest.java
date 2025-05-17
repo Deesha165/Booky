@@ -23,6 +23,7 @@ LocalDateTime eventTime,
 @NotNull(message = "event venue must be stated")
 String venue,
 
+
 @Min(value = 1)
 double pricePerTicket,
 

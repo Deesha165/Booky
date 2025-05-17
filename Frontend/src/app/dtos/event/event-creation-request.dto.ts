@@ -6,6 +6,6 @@ export interface EventCreationRequest{
     eventTime:Date,
     venue:String,
     pricePerTicket:Number,
-    availableTickets:Number,
+    totalTickets:Number,
     categoryId:Number
 }

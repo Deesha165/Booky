@@ -76,7 +76,6 @@
     </div>
   </div>
 
-  <!-- Event Details Modal -->
   <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -101,7 +100,6 @@
     </div>
   </div>
 
-  <!-- Create Event Modal -->
   <div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="createEventModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -142,7 +140,7 @@
             </div>
             <div class="mb-3">
               <label class="form-label">{{ 'Available Tickets' | translate }}</label>
-              <input type="number" class="form-control" [(ngModel)]="newEvent.availableTickets" name="availableTickets" />
+              <input type="number" class="form-control" [(ngModel)]="newEvent.totalTickets" name="availableTickets" />
             </div>
             <div class="mb-3">
               <label class="form-label">{{ 'Image File' | translate }}</label>
@@ -161,8 +159,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Create Verifier Modal -->
   <div class="modal fade" id="createVerifierModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -194,7 +190,6 @@
     </div>
   </div>
 
-  <!-- Create Category Modal -->
   <div class="modal fade" id="createCategoryModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -217,8 +212,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Edit Event Modal -->
   <div class="modal fade" id="editEventModal" tabindex="-1" aria-labelledby="editEventLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -234,7 +227,10 @@
             </div>
             <div class="mb-3">
               <label for="editEventVenue" class="form-label">{{ 'Venue' | translate }}</label>
-              <input type="text" class="form-control" id="editEventVenue" [(ngModel)]="selectedEvent.venue" name="venue" />
+                       <input type="text" class="form-control" id="editEventVenue" [(ngModel)]="selectedEvent.venue" name="venue" />
+            </div>
+            <div class="mb-5">
+
             </div>
             <div class="mb-3">
               <label for="editEventDescription" class="form-label">{{ 'Description' | translate }}</label>
@@ -246,6 +242,7 @@
             </div>
           </form>
         </div>
+        <div>l    </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'Cancel' | translate }}</button>
           <button type="button" class="btn btn-primary" (click)="updateEvent(selectedEvent)" data-bs-dismiss="modal">{{ 'Save Changes' | translate }}</button>

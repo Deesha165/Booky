@@ -60,7 +60,7 @@ newCategory:string='';
     eventTime: new Date(),
     venue: '',
     pricePerTicket: 0,
-    availableTickets: 0,
+    totalTickets:0,
     categoryId: 0
   };
  updatedEvent: EventUpdateRequest={
