@@ -116,10 +116,6 @@ public class EventServiceImpl implements EventService {
 
         Event event=getEventEntityById(eventId);
 
-        bookingService.deleteBookingsByEventId(eventId);
-
-        eventTagRepository.deleteByEventId(eventId);
-
         eventRepository.delete(event);
         return eventId;
     }

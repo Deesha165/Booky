@@ -60,7 +60,7 @@ public class EventController {
         return eventService.updateEvent(eventUpdateRequest);
     }
     @DeleteMapping("{eventId}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('ADMIN')")
     public int removeEvent(@PathVariable int eventId){
         return eventService.deleteEvent(eventId);

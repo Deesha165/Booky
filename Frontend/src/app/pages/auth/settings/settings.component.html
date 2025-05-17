@@ -1,21 +1,100 @@
-<div class="language-selector-container">
-  <h4 class="setting-title">{{ 'language' | translate }}</h4>
-  <div class="form-group">
-    <select 
-      class="form-select language-dropdown"
-      [(ngModel)]="selectedLanguage" 
-      (change)="onLanguageChange()"
+<div class="settings-container container mt-4">
+  <div class="row align-items-center">
+    <!-- Language Selector -->
+    <div class="col-md-auto mb-3">
+      <h4 class="setting-title">{{ 'language' | translate }}</h4>
+      <div class="form-group">
+        <select 
+          class="form-select"
+          [(ngModel)]="selectedLanguage" 
+          (change)="onLanguageChange()"
+          style="width: 200px;"
+        >
+          <option value="en">{{ 'English' | translate }}</option>
+          <option value="ar">{{ 'Arabic' | translate }}</option>
+        </select>
+      </div>
+      <p class="language-hint text-muted mt-2">
+        {{ 'language_change_hint' | translate }}
+      </p>
+    </div>
 
-    >
-      <option value="en">
-        <span class="flag-icon flag-icon-us"></span> {{ 'English' | translate }}
-      </option>
-      <option value="ar">
-        <span class="flag-icon flag-icon-sa"></span> {{ 'Arabic' | translate }}
-      </option>
-    </select>
+    <!-- Change Password Button -->
+    <div class="col-md-auto mb-3">
+      <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#formModal1">
+        <i class="fas fa-key me-2"></i> Change Password
+      </button>
+    </div>
   </div>
-  <p class="language-hint text-muted">
-    {{ 'language_change_hint' | translate }}
-  </p>
+
+  <!-- Password Change Modal -->
+  <div class="modal fade" id="formModal1" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 8px;">
+        <div class="modal-header bg-light">
+          <h5 class="modal-title fw-semibold" id="formModalLabel">
+            <i class="fas fa-key me-2"></i> Change Password
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form (ngSubmit)="onSaveChanges()" #passwordForm="ngForm">
+            <div class="mb-3">
+              <label for="oldPassword" class="form-label fw-medium">Current Password</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="fas fa-lock"></i>
+                </span>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="oldPassword"
+                  name="oldPassword"
+                  [(ngModel)]="passwordChangeRequest.oldPassword"
+                  required
+                  placeholder="Enter your current password"
+                >
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="newPassword" class="form-label fw-medium">New Password</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="fas fa-key"></i>
+                </span>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="newPassword"
+                  name="newPassword"
+                  [(ngModel)]="passwordChangeRequest.newPassword"
+                  required
+                  placeholder="Enter your new password"
+                >
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button 
+                type="submit" 
+                class="btn btn-success"
+                [disabled]="passwordForm.invalid"
+                data-bs-dismiss="modal"
+              >
+                <i class="fas fa-save me-2"></i> Update Password
+              </button>
+              <button 
+                type="button" 
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

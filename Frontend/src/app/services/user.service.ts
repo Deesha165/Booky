@@ -7,6 +7,7 @@ import { RegistrationRequest } from "../dtos/auth/RegisterationRequest.dto";
 import { Page } from "../models/page.model";
 import { AuthErrorHandler } from "../utils/AuthErrorHandler";
 import { TokenService } from "./token.service";
+import { PasswordChangeRequest } from "../dtos/user/password-change-request.dto";
 
 @Injectable({
     providedIn:'root'
@@ -77,6 +78,19 @@ export class UserService{
         );
   }
 
+   changePassword(passwordChangeRequest: PasswordChangeRequest): Observable<any> {
+    this.updateHeaders();
+    return this.httpClient.put(
+      `${this.apiUrl}/change-password`,
+      passwordChangeRequest,
+      { 
+        headers: this.headers
+      }
+    ).pipe(
+        this.authErrorHandler.handleAuthError(()=>this.changePassword(passwordChangeRequest))   
+        );
+    
+  }
  
 
 }

@@ -1,6 +1,7 @@
 package com.example.Bookify.controller;
 
 import com.example.Bookify.dto.auth.RegisterRequest;
+import com.example.Bookify.dto.user.PasswordChangeRequest;
 import com.example.Bookify.dto.user.UserDetailsResponse;
 import com.example.Bookify.entity.user.User;
 import com.example.Bookify.enums.UserRole;
@@ -53,6 +54,16 @@ public class UserController {
     public Page<UserDetailsResponse> getAllUsers(@RequestParam(defaultValue = "0") int page,
                                                  @RequestParam(defaultValue = "10") int size){
         return userService.getAllUsersPaged(page,size);
+    }
+
+    @PutMapping("/change-password")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PreAuthorize("isAuthenticated()")
+    public int changeUserAccountPassword
+            (@Valid @RequestBody PasswordChangeRequest passwordChangeRequest)
+    {
+        return
+                userService.changeUserAccountPassword(passwordChangeRequest);
     }
 
 }

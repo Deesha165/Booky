@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { UserService } from '../../../services/user.service';
+import { PasswordChangeRequest } from '../../../dtos/user/password-change-request.dto';
 
 @Component({
   selector: 'app-settings',
@@ -11,10 +13,12 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 })
 export class SettingsComponent {
 
-    title = 'angular-i18n';
+  
   selectedLanguage = 'en';
 
-  constructor(private translateService:TranslateService){
+  passwordChangeRequest: PasswordChangeRequest = { oldPassword: '', newPassword: '' };
+   
+  constructor(private translateService:TranslateService,private userService :UserService){
 
   }
 
@@ -23,4 +27,16 @@ export class SettingsComponent {
       localStorage.setItem('appLanguage', this.selectedLanguage);
   }
 
+
+  onSaveChanges(){
+
+
+    this.userService.changePassword(this.passwordChangeRequest).subscribe((data)=>{
+      console.log(data);
+    })
+    this.passwordChangeRequest={
+      oldPassword:'',
+      newPassword:''
+    }
+  }
 }
