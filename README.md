@@ -104,7 +104,7 @@ A full-stack event booking platform that supports user registration, event brows
   - Descriptive messages and consistent response formats
 - **Attention to Detail**:
   - Structured codebase
-  - Clear naming conventions and modular separation
+  - Clear naming conventions and modular separation** 
 
 ---
 
@@ -138,3 +138,9 @@ A full-stack event booking platform that supports user registration, event brows
 - High attention to detail and consistent coding standards across the stack
 
 ---
+
+## ERD
+<p align="center">
+  <img src="./ERD.png" alt="ERD Diagram" width="600"/>
+</p>
+
