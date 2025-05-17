@@ -32,10 +32,6 @@ A full-stack event booking platform that supports user registration, event brows
 - Spring Boot
 - Spring Security
 - Spring Data JPA
-- Spring Validation
-- Java Mail Sender
-- Lombok
-- Scheduling
 
 ### Frontend
 - Angular
@@ -49,6 +45,11 @@ A full-stack event booking platform that supports user registration, event brows
 ### Testing
 - JUnit
 - Mockito
+### Others
+- Spring Validation
+- Java Mail Sender
+- Lombok
+- Scheduling
 
 ---
 
@@ -71,16 +72,10 @@ A full-stack event booking platform that supports user registration, event brows
   - Password change functionality
 - **Localization**:
   - Static multi-language support
-- **Pagination & Scrolling**:
-  - Infinite scrolling for better UX
-  - Pagination for large datasets
 - **Authentication**:
   - JWT access and refresh tokens
   - Refresh token mechanism
-- **Testing**:
-  - Comprehensive unit testing
-- **Portability**:
-  - Docker Compose setup for all services
+
 
 ---
 
@@ -92,6 +87,9 @@ A full-stack event booking platform that supports user registration, event brows
   - Infinite scrolling
   - Pagination for performance and navigation
 - **Portability**: Docker Compose enables seamless environment setup
+-  **Pagination & Scrolling**:
+  - Infinite scrolling for better UX
+  - Pagination for large datasets
 - **Maintainability**:
   - Clean architecture for both frontend and backend
   - Modular and scalable code structure
@@ -99,7 +97,7 @@ A full-stack event booking platform that supports user registration, event brows
   - JWT authentication and refresh token mechanism
   - Secure password handling and role checks
 - **Performance Optimization**:
-  - Lazy loading with pagination
+  - Lazy loading with pagination 
   - Use of JPA projections for efficient querying
 - **Robust Error Handling**:
   - RESTful API error handling practices
@@ -117,7 +115,7 @@ A full-stack event booking platform that supports user registration, event brows
 ### 1. Code Quality and Maintainability
 - Follows clean architecture principles with clear separation of concerns
 - Backend and frontend are modular, scalable, and easy to extend
-- Use of Lombok, Spring best practices, and organized DTOs/entities/services
+- Use of Lombok, Mappers, Spring best practices, and organized DTOs/entities/services
 - Adopts best practices in Angular for modular components and services
 
 ### 2. Functionality and Completeness
@@ -127,7 +125,7 @@ A full-stack event booking platform that supports user registration, event brows
 - Static multi-language support for wider accessibility
 
 ### 3. Creativity and Innovation
-- Trending events based on tags like twitter
+- Trending events based on tag occurrence like twitter
 - Role-based booking verification introduces a unique workflow
 - Real-time email notifications enhance user engagement
 - Internationalization with `ngx-translate` and support for infinite scroll for better UX
