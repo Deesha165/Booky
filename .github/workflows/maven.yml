@@ -1,40 +1,25 @@
-name: Backend CI
+name: CI with Docker Compose
 
-on: 
-   push:
-   pull_request:
-   
+on: [push, pull_request]
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: backend
-
+    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # Cache Maven dependencies
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.m2/repository
-            backend/.mvn/wrapper
-          key: ${{ runner.os }}-maven-${{ hashFiles('backend/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+      - name: Build Backend
+        working-directory: ./backend
+        run: mvn -B package --file pom.xml
 
-      - name: Make mvnw executable
-        run: chmod +x mvnw
-
-      - name: Build with Maven
-        run: ./mvnw clean install -DskipTests
+      - name: Run Tests
+        working-directory: ./backend
+        run: mvn test
