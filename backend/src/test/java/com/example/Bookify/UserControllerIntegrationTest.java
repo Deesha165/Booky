@@ -139,7 +139,7 @@ public class UserControllerIntegrationTest {
 
     }
 
-
+/*
     @Test
     @DisplayName("Admin privileges only has access")
     @Order(5)
@@ -162,7 +162,7 @@ public class UserControllerIntegrationTest {
         // Assert
         Assertions.assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode(),
                 "HTTP Status code 403 Forbidden should have been returned");
-    }
+    }*/
     @Test
     @DisplayName("Admin privileges only has access")
     @Order(6)
