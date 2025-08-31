@@ -1,8 +1,8 @@
-name: Backend CI
+name: Test CI
 
 on:
-  push:
-  pull_request:
+  workflow_dispatch:
+
 
 jobs:
   build:
@@ -22,19 +22,8 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Cache Maven dependencies
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.m2/repository
-            backend/.mvn/wrapper
-          key: ${{ runner.os }}-maven-${{ hashFiles('backend/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
-      - name: Make mvnw executable
-        run: chmod +x mvnw
-
       - name: Build with Maven
-        run: ./mvnw clean install 
+        run: mvn -B package -DskipTests
+      - name: Run Tests
+        run: mvn test
+
