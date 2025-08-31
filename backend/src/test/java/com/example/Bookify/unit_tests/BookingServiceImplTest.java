@@ -1,4 +1,4 @@
-package com.example.Bookify;
+package com.example.Bookify.unit_tests;
 
 import com.example.Bookify.dto.event.EventReservationDetails;
 import com.example.Bookify.entity.booking.Booking;
@@ -16,10 +16,8 @@ import com.example.Bookify.service.impl.BookingServiceImpl;
 import com.example.Bookify.util.AuthUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.aggregator.ArgumentAccessException;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

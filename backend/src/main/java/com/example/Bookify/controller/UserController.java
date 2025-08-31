@@ -1,5 +1,6 @@
 package com.example.Bookify.controller;
 
+import com.example.Bookify.dto.PageResponse;
 import com.example.Bookify.dto.auth.RegisterRequest;
 import com.example.Bookify.dto.user.PasswordChangeRequest;
 import com.example.Bookify.dto.user.UserDetailsResponse;
@@ -10,6 +11,7 @@ import com.example.Bookify.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,9 +53,12 @@ public class UserController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
-    public Page<UserDetailsResponse> getAllUsers(@RequestParam(defaultValue = "0") int page,
+    public PageResponse<UserDetailsResponse> getAllUsers(@RequestParam(defaultValue = "0") int page,
                                                  @RequestParam(defaultValue = "10") int size){
-        return userService.getAllUsersPaged(page,size);
+
+        Page<UserDetailsResponse> userDetailsResponses=userService.getAllUsersPaged(page,size);
+
+        return new PageResponse<>(userDetailsResponses);
     }
 
     @PutMapping("/change-password")

@@ -1,10 +1,8 @@
-package com.example.Bookify;
+package com.example.Bookify.unit_tests;
 
 import com.example.Bookify.dto.event.EventCreationRequest;
 import com.example.Bookify.dto.event.EventDetailsResponse;
-import com.example.Bookify.entity.event.Category;
 import com.example.Bookify.entity.event.Event;
-import com.example.Bookify.entity.user.User;
 import com.example.Bookify.exception.DuplicateResourceException;
 import com.example.Bookify.exception.EntityNotFoundException;
 import com.example.Bookify.mapper.EventMapper;
@@ -19,12 +17,8 @@ import com.example.Bookify.service.impl.EventServiceImpl;
 import com.example.Bookify.util.AuthUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 

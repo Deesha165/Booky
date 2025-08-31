@@ -32,4 +32,7 @@ public class AdminInitializer implements CommandLineRunner {
             userRepository.save(user);
         }
     }
+
+
+
 }
