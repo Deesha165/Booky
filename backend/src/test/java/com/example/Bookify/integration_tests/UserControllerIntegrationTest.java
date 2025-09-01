@@ -1,13 +1,10 @@
-package com.example.Bookify;
-import org.junit.jupiter.api.BeforeAll;
+package com.example.Bookify.integration_tests;
 
 import com.example.Bookify.dto.PageResponse;
 import com.example.Bookify.dto.auth.AuthenticationRequest;
 import com.example.Bookify.dto.auth.AuthenticationResponse;
 import com.example.Bookify.dto.auth.RegisterRequest;
 import com.example.Bookify.dto.user.UserDetailsResponse;
-import com.example.Bookify.entity.user.User;
-import com.example.Bookify.enums.UserRole;
 import com.example.Bookify.repository.UserRepository;
 import org.json.JSONException;
 
